@@ -1,6 +1,12 @@
-# Nuxt Minimal Starter
+# Nuxt Template App + Supabase
+
+This is a Nuxt template application integrated with Supabase that is meant to be used as a foundation for new apps.
 
 Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+
+## TODO
+
+- WIP
 
 ## Setup
 
