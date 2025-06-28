@@ -28,10 +28,9 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
 
-    # TODO
-    # env:
-    #   NUXT_SUPABASE_URL: ${{ secrets.NUXT_SUPABASE_URL }}
-    #   NUXT_SUPABASE_KEY: ${{ secrets.NUXT_SUPABASE_KEY }}
+    env:
+      NUXT_PUBLIC_SUPABASE_URL: ${{ secrets.NUXT_PUBLIC_SUPABASE_URL }}
+      NUXT_PUBLIC_SUPABASE_KEY: ${{ secrets.NUXT_PUBLIC_SUPABASE_KEY }}
 
     steps:
       # Build

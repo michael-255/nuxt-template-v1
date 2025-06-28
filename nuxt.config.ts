@@ -14,4 +14,14 @@ export default defineNuxtConfig({
     "@nuxtjs/supabase",
   ],
   app: { baseURL: "/nuxt-template-v1/" },
+  runtimeConfig: {
+    public: {
+      url: process.env.NUXT_PUBLIC_SUPABASE_URL,
+      key: process.env.NUXT_PUBLIC_SUPABASE_KEY,
+    },
+  },
+  supabase: {
+    url: process.env.NUXT_PUBLIC_SUPABASE_URL,
+    key: process.env.NUXT_PUBLIC_SUPABASE_KEY,
+  },
 });
