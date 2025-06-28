@@ -28,6 +28,11 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
 
+    # TODO
+    # env:
+    #   NUXT_SUPABASE_URL: ${{ secrets.NUXT_SUPABASE_URL }}
+    #   NUXT_SUPABASE_KEY: ${{ secrets.NUXT_SUPABASE_KEY }}
+
     steps:
       # Build
       - name: Checkout
@@ -49,6 +54,7 @@ jobs:
       - name: GitHub Pages 404 Workaround
         run: cd dist && cp index.html 404.html
 
+      # TODO
       # Test
       # - name: Unit Tests
       #   run: npm run test:unit
