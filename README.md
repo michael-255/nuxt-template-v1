@@ -1,12 +1,17 @@
 # Nuxt Template App + Supabase
 
-This is a Nuxt template application integrated with Supabase that is meant to be used as a foundation for new apps.
+This is a Nuxt template application integrated with Supabase that is meant to be used as a
+foundation for new apps.
 
 Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
 
 ## TODO
 
 - WIP
+
+## Notes
+
+- Using Icons: `<UIcon name="material-symbols:info" style="color: black" size="5em" />`
 
 ## Setup
 
@@ -78,4 +83,5 @@ yarn preview
 bun run preview
 ```
 
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more
+information.
