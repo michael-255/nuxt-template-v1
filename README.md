@@ -7,7 +7,16 @@ Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduct
 
 ## TODO
 
-- WIP
+- Figure out how to use Nuxt UI (learning Tailwind CSS?)
+  - <https://ui.nuxt.com/getting-started>
+
+- CSS vars for the theme and using those values in code
+  - <https://ui.nuxt.com/getting-started/theme>
+  - Get your theme variable setup!
+
+- Getting the `toast` to work with `useLogger`
+  - <https://ui.nuxt.com/composables/use-toast>
+  - Working! Update to display the correct toast design
 
 ## Notes
 

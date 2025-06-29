@@ -15,22 +15,16 @@ const subscription = localDatabase.liveSettings().subscribe({
 })
 
 onMounted(async () => {
-  toast.add({
-    title: 'Uh oh! Something went wrong.',
-    description: 'There was a problem with your request.',
-    icon: 'material-symbols:info-outline-rounded',
-  })
-
   // Initializes the local database settings
   try {
     await localDatabase.initializeSettings()
   } catch (error) {
     // Output the error and notify user since it could be a database or logger failure
-    // notify({
-    //   message: 'Error initializing settings',
-    //   icon: errorIcon,
-    //   color: 'negative',
-    // })
+    // TODO
+    toast.add({
+      title: 'Error initializing settings',
+      icon: 'material-symbols:info-outline-rounded',
+    })
     console.error(error)
   }
 
@@ -52,7 +46,6 @@ onUnmounted(() => {
 
 <template>
   <UApp>
-    <NuxtRouteAnnouncer />
-    <NuxtWelcome />
+    <NuxtPage />
   </UApp>
 </template>

@@ -17,6 +17,7 @@ export default defineNuxtConfig({
     '@nuxtjs/supabase',
     '@pinia/nuxt',
   ],
+  css: ['~/assets/css/main.css'],
   app: { baseURL: '/nuxt-template-v1/' },
   runtimeConfig: {
     public: {
