@@ -1,17 +1,18 @@
 <script setup lang="ts">
+import { errorIcon } from '#shared/constants'
+import { Notify } from 'quasar'
 import { onMounted, onUnmounted } from 'vue'
 import { localDatabase } from '~/utils/local-database'
 import useLogger from './composables/useLogger'
 import { useSettingsStore } from './stores/settings'
 
-const { log } = useLogger()
+const logger = useLogger()
 const settingsStore = useSettingsStore()
-const toast = useToast()
 
 // Loading live Settings into the store on startup for use throughout the app.
 const subscription = localDatabase.liveSettings().subscribe({
   next: (records) => (settingsStore.settings = records),
-  error: (error) => log.error('Error loading live Settings', error as Error),
+  error: (error) => logger.error('Error loading live Settings', error as Error),
 })
 
 onMounted(async () => {
@@ -20,10 +21,10 @@ onMounted(async () => {
     await localDatabase.initializeSettings()
   } catch (error) {
     // Output the error and notify user since it could be a database or logger failure
-    // TODO
-    toast.add({
-      title: 'Error initializing settings',
-      icon: 'material-symbols:info-outline-rounded',
+    Notify.create({
+      message: 'Error initializing settings',
+      icon: errorIcon,
+      color: 'negative',
     })
     console.error(error)
   }
@@ -31,12 +32,10 @@ onMounted(async () => {
   // Delete expired logs
   try {
     const logsDeleted = await localDatabase.deleteExpiredLogs()
-    log.silentDebug('Expired logs deleted', { logsDeleted })
+    logger.debug('Expired logs deleted', { logsDeleted })
   } catch (error) {
-    log.error('Error deleting expired logs', error as Error)
+    logger.error('Error deleting expired logs', error as Error)
   }
-
-  log.info('App initialized successfully')
 })
 
 onUnmounted(() => {
@@ -45,7 +44,6 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <UApp>
-    <NuxtPage />
-  </UApp>
+  <div>App</div>
+  <NuxtPage />
 </template>
