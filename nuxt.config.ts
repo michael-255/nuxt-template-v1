@@ -25,6 +25,7 @@ export default defineNuxtConfig({
     },
   },
   supabase: {
+    redirect: false, // TODO - May go back to true when ready for auth
     url: process.env.NUXT_PUBLIC_SUPABASE_URL,
     key: process.env.NUXT_PUBLIC_SUPABASE_KEY,
   },
@@ -32,13 +33,13 @@ export default defineNuxtConfig({
     config: {
       dark: true,
       brand: {
-        primary: '#1976d2',
-        secondary: '#607d8b',
-        accent: '#673ab7',
-        info: '#0d47a1',
-        warning: '#ff6f00',
-        negative: '#C10015',
-        positive: '#4caf50',
+        primary: '#1976d2', // Blue
+        secondary: '#607d8b', // Blue Grey
+        accent: '#673ab7', // Deep Purple
+        info: '#0d47a1', // Dark Blue
+        warning: '#ff6f00', // Amber
+        negative: '#C10015', // Red
+        positive: '#4caf50', // Green
         dark: '#1d1d1d',
         'dark-page': '#121212',
       },

@@ -3,3 +3,12 @@
 body {
   font-family: 'Roboto', sans-serif;
 }
+
+/* Standard width for page content */
+.page-width-limit {
+  max-width: 800px;
+  width: 100%;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  white-space: normal;
+}

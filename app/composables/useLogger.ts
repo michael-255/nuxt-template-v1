@@ -13,7 +13,7 @@ export default function useLogger() {
   const loggerName = `%c${appTitle}`
   const baseStyle = 'border-radius: 3px; padding: 2px 4px; color: white; background-color:'
   const style = {
-    print: `${baseStyle} ${colors.getPaletteColor('secondary')};`,
+    print: `${baseStyle} ${colors.getPaletteColor('dark')};`, // TODO - Better color
     debug: `${baseStyle} ${colors.getPaletteColor('accent')};`,
     info: `${baseStyle} ${colors.getPaletteColor('info')};`,
     warn: `${baseStyle} ${colors.getPaletteColor('warning')};`,
@@ -24,15 +24,13 @@ export default function useLogger() {
 
   /**
    * Generic notification method for displaying messages.
-   * @todo TODO
    */
-  function notify(message: string, icon: string, color: string) {
+  function notify(message: string, icon: string, color: string, options?: Record<string, any>) {
     Notify.create({
       message,
       icon,
       color,
-      position: 'top-right',
-      timeout: 3000,
+      ...options,
     })
   }
 
@@ -57,7 +55,6 @@ export default function useLogger() {
    * Info notification and logging.
    */
   async function info(name: string, details?: LogDetailsType) {
-    console.log('hello from info', settingsStore.settings)
     if (settingsStore.consoleLogs) {
       console.log(loggerName, style.info, `[${LogLevelEnum.INFO}]`, name, details)
     }
