@@ -7,7 +7,7 @@ Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduct
 
 ## TODO
 
-- Use Tailwind colors for theme?
+- Choose some new colors for your theme
 - WIP
 
 ## Notes

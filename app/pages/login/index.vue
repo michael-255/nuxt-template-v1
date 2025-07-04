@@ -10,13 +10,11 @@ const supabase = useSupabaseClient()
 const email = ref('')
 const password = ref('')
 const loading = ref(false)
-const error = ref('')
 
 async function login() {
-  error.value = ''
-  loading.value = true
-
   try {
+    loading.value = true
+
     const { error: loginError } = await supabase.auth.signInWithPassword({
       email: email.value,
       password: password.value,
@@ -49,8 +47,11 @@ async function login() {
         type="email"
         outlined
         autofocus
-        :disable="loading"
         class="q-mb-md"
+        :rules="[
+          (val: string) => emailSchema.safeParse(val).success || 'Must be a valid email address',
+        ]"
+        :disable="loading"
       />
 
       <QInput
@@ -58,19 +59,18 @@ async function login() {
         label="Password"
         type="password"
         outlined
-        :disable="loading"
         class="q-mb-md"
+        :rules="[(val: string) => !!val || 'Password is required']"
+        :disable="loading"
       />
-
-      <div v-if="error" class="text-negative q-mb-md">{{ error }}</div>
 
       <QBtn
         label="Login"
         color="primary"
-        :loading="loading"
-        :disable="loading"
         type="submit"
         class="q-mt-md full-width"
+        :loading="loading"
+        :disable="loading"
       />
     </QForm>
   </div>

@@ -13,7 +13,7 @@ export default function useLogger() {
   const loggerName = `%c${appTitle}`
   const baseStyle = 'border-radius: 3px; padding: 2px 4px; color: white; background-color:'
   const style = {
-    print: `${baseStyle} ${colors.getPaletteColor('dark')};`, // TODO - Better color
+    print: `${baseStyle} ${colors.getPaletteColor('dark')};`, // TODO - Better colors
     debug: `${baseStyle} ${colors.getPaletteColor('accent')};`,
     info: `${baseStyle} ${colors.getPaletteColor('info')};`,
     warn: `${baseStyle} ${colors.getPaletteColor('warning')};`,
@@ -87,6 +87,7 @@ export default function useLogger() {
     })
 
     await localDatabase.table(LocalTableEnum.LOGS).add(log)
+
     Notify.create({ message: name, icon: warnIcon, color: 'warning' })
   }
 
