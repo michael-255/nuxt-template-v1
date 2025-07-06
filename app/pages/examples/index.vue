@@ -1,10 +1,15 @@
 <script setup lang="ts">
-// definePageMeta({
-//   layout: 'dashboard',
-// })
+import { appTitle } from '#shared/constants'
+
+useMeta({ title: `${appTitle} | Examples` })
+
+definePageMeta({
+  layout: 'examples',
+})
 </script>
 
 <template>
-  <div>Examples Index</div>
+  <SharedHeading title="Examples" />
+
   <NuxtPage />
 </template>

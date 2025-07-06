@@ -2,10 +2,12 @@ import {
   symRoundedAddCircle,
   symRoundedBugReport,
   symRoundedClose,
+  symRoundedDatabase,
   symRoundedDelete,
   symRoundedDeleteForever,
   symRoundedDownload,
   symRoundedError,
+  symRoundedExitToApp,
   symRoundedFeatureSearch,
   symRoundedGridView,
   symRoundedInfo,
@@ -68,6 +70,7 @@ export const exportFileIcon = symRoundedDownload
 export const refreshIcon = symRoundedRefresh
 export const deleteIcon = symRoundedDelete
 export const deleteXIcon = symRoundedDeleteForever
+export const exitIcon = symRoundedExitToApp
 export const logoutIcon = symRoundedLogout
 export const searchIcon = symRoundedSearch
 
@@ -77,3 +80,4 @@ export const optionsIcon = symRoundedTune
 export const storageIcon = symRoundedStorage
 export const columnsIcon = symRoundedViewWeek
 export const inspectIcon = symRoundedManageSearch
+export const databaseIcon = symRoundedDatabase

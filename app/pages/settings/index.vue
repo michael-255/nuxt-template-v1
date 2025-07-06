@@ -2,6 +2,7 @@
 import { DialogConfirm } from '#components'
 import {
   appTitle,
+  closeIcon,
   createIcon,
   debugIcon,
   deleteIcon,
@@ -10,7 +11,6 @@ import {
   importFileIcon,
   logoutIcon,
   logsIcon,
-  notificationsIcon,
   optionsIcon,
   refreshIcon,
   settingsIcon,
@@ -24,18 +24,13 @@ import type { BackupType, LogType, SettingType } from '#shared/types/types'
 import { useSettingsStore } from '@/stores/settings'
 import { exportFile, QSpinnerGears, useQuasar } from 'quasar'
 import { ref, type Ref } from 'vue'
-import { useRouter } from 'vue-router'
 import { localDatabase } from '~/utils/local-database'
 
 useMeta({ title: `${appTitle} | Settings` })
 
-definePageMeta({
-  layout: 'dashboard',
-})
-
 const $q = useQuasar()
 const logger = useLogger()
-const router = useRouter()
+const { goBack } = useRouting()
 const supabase = useSupabaseClient()
 const user = useSupabaseUser()
 const settingsStore = useSettingsStore()
@@ -194,7 +189,6 @@ function onExportBackup() {
         createdAt: new Date().toISOString(),
         logs: await localDatabase.table(LocalTableEnum.LOGS).toArray(),
         settings: await localDatabase.table(LocalTableEnum.SETTINGS).toArray(),
-        notifications: await localDatabase.table(LocalTableEnum.NOTIFICATIONS).toArray(),
       }
 
       logger.debug('backup:', backup)
@@ -333,7 +327,9 @@ function onTestLogs() {
 </script>
 
 <template>
-  <SharedHeading :icon="settingsIcon" title="Settings" />
+  <SharedHeading title="Settings">
+    <QBtn flat round :icon="closeIcon" @click="goBack()" />
+  </SharedHeading>
 
   <QList padding>
     <QItemLabel header>
@@ -344,20 +340,20 @@ function onTestLogs() {
     <QItem>
       <QItemSection top>
         <QItemLabel>Email</QItemLabel>
-        <QItemLabel caption> {{ user?.email || '-' }} </QItemLabel>
+        <QItemLabel caption> {{ user?.email || 'No User' }} </QItemLabel>
       </QItemSection>
     </QItem>
 
     <QItem>
       <QItemSection top>
         <QItemLabel>Id</QItemLabel>
-        <QItemLabel caption> {{ user?.id || '-' }} </QItemLabel>
+        <QItemLabel caption> {{ user?.id || 'No User' }} </QItemLabel>
       </QItemSection>
     </QItem>
 
     <QItem>
       <QBtn
-        :disable="$q.loading.isActive"
+        :disable="$q.loading.isActive || !user"
         :icon="logoutIcon"
         color="negative"
         label="Logout"
@@ -518,7 +514,7 @@ function onTestLogs() {
         :icon="logsIcon"
         color="info"
         label="View Logs"
-        @click="router.push('/view-logs')"
+        to="/settings/view-logs"
       />
     </QItem>
 
@@ -528,17 +524,7 @@ function onTestLogs() {
         :icon="settingsIcon"
         color="info"
         label="View Settings"
-        @click="router.push('/view-settings')"
-      />
-    </QItem>
-
-    <QItem>
-      <QBtn
-        :disable="$q.loading.isActive"
-        :icon="notificationsIcon"
-        color="info"
-        label="View Notifications"
-        @click="router.push('/view-notifications')"
+        to="/settings/view-settings"
       />
     </QItem>
 

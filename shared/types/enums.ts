@@ -8,29 +8,11 @@
 //
 
 /**
- * Route names used by the router for page selection.
- */
-export enum RouteNameEnum {
-  // Core App
-  DASHBOARD = 'Dashboard',
-  SETTINGS = 'Settings',
-  SETTINGS_TABLE = 'SettingsTable',
-  LOGS_TABLE = 'LogsTable',
-  NOTIFICATIONS_TABLE = 'NotificationsTable',
-  DONATE = 'Donate',
-  ABOUT = 'About',
-  NOT_FOUND = 'NotFound',
-  // Layouts
-  MENU_LAYOUT = 'MenuLayout',
-}
-
-/**
  * URL slug safe string representations of database table names: `example-records`
  */
 export enum LocalTableEnum {
   SETTINGS = 'settings',
   LOGS = 'logs',
-  NOTIFICATIONS = 'notifications',
 }
 
 /**

@@ -6,8 +6,6 @@ import type {
   logLabelSchema,
   logLevelSchema,
   logSchema,
-  notificationSchema,
-  routeNameSchema,
   settingIdSchema,
   settingSchema,
   settingValueSchema,
@@ -26,7 +24,6 @@ export type BackupType = {
   createdAt: TimestampzType
   logs: LogType[]
   settings: SettingType[]
-  notifications: NotificationType[]
 }
 
 //
@@ -37,7 +34,6 @@ export type TextLineType = z.infer<typeof textLineSchema>
 export type TextAreaType = z.infer<typeof textAreaSchema>
 export type LocalTableType = z.infer<typeof localTableSchema>
 export type TableType = z.infer<typeof tableSchema>
-export type RouteNameType = z.infer<typeof routeNameSchema>
 export type IdType = z.infer<typeof idSchema>
 export type TimestampzType = z.infer<typeof timestampzSchema>
 
@@ -57,9 +53,3 @@ export type LogLevelType = z.infer<typeof logLevelSchema>
 export type LogLabelType = z.infer<typeof logLabelSchema>
 export type LogDetailsType = z.infer<typeof logDetailsSchema>
 export type LogType = z.infer<typeof logSchema>
-
-//
-// Notifications
-//
-
-export type NotificationType = z.infer<typeof notificationSchema>

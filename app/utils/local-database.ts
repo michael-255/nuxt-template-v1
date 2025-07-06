@@ -10,7 +10,6 @@ import type {
 } from '#shared/types/types'
 import Dexie, { liveQuery, type Observable, type Table } from 'dexie'
 import { Log } from '~/models/Log'
-import { Notification } from '~/models/Notification'
 import { Setting } from '~/models/Setting'
 
 /**
@@ -20,8 +19,7 @@ import { Setting } from '~/models/Setting'
 export class LocalDatabase extends Dexie {
   // Required for easier TypeScript usage
   [LocalTableEnum.LOGS]!: Table<Log>;
-  [LocalTableEnum.SETTINGS]!: Table<Setting>;
-  [LocalTableEnum.NOTIFICATIONS]!: Table<Notification>
+  [LocalTableEnum.SETTINGS]!: Table<Setting>
 
   constructor(name: string) {
     super(name)
@@ -29,12 +27,10 @@ export class LocalDatabase extends Dexie {
     this.version(1).stores({
       [LocalTableEnum.LOGS]: '&id, created_at',
       [LocalTableEnum.SETTINGS]: '&id',
-      [LocalTableEnum.NOTIFICATIONS]: '&id, created_at',
     })
 
     this[LocalTableEnum.LOGS].mapToClass(Log)
     this[LocalTableEnum.SETTINGS].mapToClass(Setting)
-    this[LocalTableEnum.NOTIFICATIONS].mapToClass(Notification)
   }
 
   /**
@@ -126,17 +122,6 @@ export class LocalDatabase extends Dexie {
    */
   liveSettings(): Observable<SettingType[]> {
     return liveQuery(() => this.table(LocalTableEnum.SETTINGS).toArray())
-  }
-
-  /**
-   * Returns an observable of the notifications in the database. The notifications are ordered by
-   * created_at in descending order. This is a live query, so it will update automatically when
-   * the database changes.
-   */
-  liveNotifications(): Observable<Notification[]> {
-    return liveQuery(() =>
-      this.table(LocalTableEnum.NOTIFICATIONS).orderBy('created_at').reverse().toArray(),
-    )
   }
 }
 

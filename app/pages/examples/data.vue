@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { DialogInspectNotification } from '#components'
-import { useRouting, type NotificationType } from '#imports'
-import { appTitle, closeIcon, columnsIcon, notificationsIcon, searchIcon } from '#shared/constants'
+import { DialogInspectLog } from '#components'
+import { useRouting } from '#imports'
+import { appTitle, closeIcon, columnsIcon, examplesIcon, searchIcon } from '#shared/constants'
 import {
   columnOptionsFromTableColumns,
   hiddenTableColumn,
@@ -14,14 +14,14 @@ import { useMeta, useQuasar, type QTableColumn } from 'quasar'
 import { onUnmounted, ref, type Ref } from 'vue'
 import { localDatabase } from '~/utils/local-database'
 
-useMeta({ title: `${appTitle} | View Notifications` })
+useMeta({ title: `${appTitle} | View Examples` })
 
 const $q = useQuasar()
 const logger = useLogger()
 const { goBack } = useRouting()
 
-const labelSingular = 'Notification'
-const labelPlural = 'Notifications'
+const labelSingular = 'Example'
+const labelPlural = 'Examples'
 const searchFilter: Ref<string> = ref('')
 const tableColumns = [
   hiddenTableColumn('id'),
@@ -31,10 +31,10 @@ const tableColumns = [
 const columnOptions: Ref<QTableColumn[]> = ref(columnOptionsFromTableColumns(tableColumns))
 const visibleColumns: Ref<string[]> = ref(visibleColumnsFromTableColumns(tableColumns))
 
-const liveData: Ref<NotificationType[]> = ref([])
+const liveData: Ref<LogType[]> = ref([])
 const isLiveQueryFinished = ref(false)
 
-const subscription = localDatabase.liveNotifications().subscribe({
+const subscription = localDatabase.liveLogs().subscribe({
   next: (data) => {
     liveData.value = data
     isLiveQueryFinished.value = true
@@ -46,11 +46,11 @@ const subscription = localDatabase.liveNotifications().subscribe({
 })
 
 /**
- * Opens the Inspect Notification dialog using the data from the clicked row.
+ * Opens the Inspect Log dialog using the data from the clicked row.
  */
-function onInspectNotification(record: Record<string, any>) {
+function onInspectLog(record: Record<string, any>) {
   return $q.dialog({
-    component: DialogInspectNotification,
+    component: DialogInspectLog,
     componentProps: { record },
   })
 }
@@ -85,7 +85,7 @@ onUnmounted(() => {
     </template>
 
     <template #body="props">
-      <QTr :props="props" class="cursor-pointer" @click="onInspectNotification(props.row)">
+      <QTr :props="props" class="cursor-pointer" @click="onInspectLog(props.row)">
         <QTd v-for="col in props.cols" :key="col.name" :props="props">
           {{ col.value }}
         </QTd>
@@ -95,7 +95,7 @@ onUnmounted(() => {
     <template #top>
       <div class="row justify-start full-width q-mb-md">
         <div class="col-10 text-h6 text-bold ellipsis">
-          <QIcon class="q-pb-xs q-mr-xs" :name="notificationsIcon" />
+          <QIcon class="q-pb-xs q-mr-xs" :name="examplesIcon" />
           {{ labelPlural }}
         </div>
 

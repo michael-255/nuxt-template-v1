@@ -8,7 +8,9 @@ Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduct
 ## TODO
 
 - Choose some new colors for your theme
-- WIP
+- Init Supabase in project
+- Create Supabase DB migration file
+- Develop notifications/reminders solution
 
 ## Project Goals
 

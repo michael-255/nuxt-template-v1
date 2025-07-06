@@ -1,25 +1,23 @@
 <script setup lang="ts">
-import { appTitle, dashboardIcon, infoIcon } from '#shared/constants'
+import { appTitle, examplesIcon, settingsIcon } from '#shared/constants'
 import { useMeta } from 'quasar'
 
 useMeta({ title: `${appTitle} | Dashboard` })
 
-definePageMeta({
-  layout: 'dashboard',
-})
-
 const dashboardButtons = [
   {
     label: 'Examples',
-    icon: infoIcon,
-    color: 'primary',
+    icon: examplesIcon,
+    color: 'info',
     to: '/examples',
   },
 ]
 </script>
 
 <template>
-  <SharedHeading :icon="dashboardIcon" :title="appTitle" />
+  <SharedHeading :title="appTitle">
+    <QBtn flat round :icon="settingsIcon" to="/settings" />
+  </SharedHeading>
 
   <div class="row q-col-gutter-md q-pa-sm">
     <div v-for="button in dashboardButtons" :key="button.label" class="col-6">
@@ -31,8 +29,11 @@ const dashboardButtons = [
         :color="button.color"
         :to="button.to"
       >
+        <!-- <QBadge color="red" floating size="lg">7 </QBadge> -->
         <QIcon :name="button.icon" size="4rem" />
-        <div class="q-mt-sm text-h6">{{ button.label }}</div>
+        <div class="q-mt-sm text-h6">
+          {{ button.label }}
+        </div>
       </QBtn>
     </div>
   </div>
