@@ -5,6 +5,6 @@ definePageMeta({
 </script>
 
 <template>
-  <div>Dashboard Index</div>
+  <div>Examples Index</div>
   <NuxtPage />
 </template>

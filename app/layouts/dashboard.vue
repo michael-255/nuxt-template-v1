@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { dashboardIcon, errorIcon, examplesIcon, infoIcon, warnIcon } from '#shared/constants'
+import { dashboardIcon, notificationsIcon, settingsIcon } from '#shared/constants'
 import { useQuasar } from 'quasar'
 
 const $q = useQuasar()
@@ -10,28 +10,20 @@ const isDesktop = computed(() => $q.screen.gt.xs)
   <QLayout view="hHh lpr lfr">
     <QHeader bordered>
       <QTabs class="text-caption" active-color="yellow" outside-arrows mobile-arrows>
-        <QRouteTab no-caps :icon="examplesIcon" exact>
-          <template v-if="isDesktop">Examples</template>
-        </QRouteTab>
-
-        <QRouteTab no-caps :icon="infoIcon" exact>
-          <template v-if="isDesktop">Information</template>
-        </QRouteTab>
-
-        <QRouteTab no-caps :icon="warnIcon" exact>
-          <template v-if="isDesktop">Warnings</template>
-        </QRouteTab>
-
-        <QRouteTab no-caps :icon="errorIcon" exact>
-          <template v-if="isDesktop">Errors</template>
-        </QRouteTab>
-
-        <QRouteTab :icon="dashboardIcon" no-caps exact>
+        <QRouteTab no-caps :icon="dashboardIcon" exact to="/">
           <template v-if="isDesktop">Dashboard</template>
+        </QRouteTab>
+
+        <QRouteTab no-caps :icon="notificationsIcon" exact to="/notifications">
+          <template v-if="isDesktop">Notifications</template>
+        </QRouteTab>
+
+        <QRouteTab no-caps :icon="settingsIcon" exact to="/settings">
+          <template v-if="isDesktop">Settings</template>
         </QRouteTab>
       </QTabs>
     </QHeader>
 
-    <LayoutsPageContainerSlot />
+    <LayoutsContainer />
   </QLayout>
 </template>

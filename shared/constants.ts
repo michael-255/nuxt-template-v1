@@ -4,6 +4,8 @@ import {
   symRoundedError,
   symRoundedGridView,
   symRoundedInfo,
+  symRoundedNotifications,
+  symRoundedSettings,
   symRoundedSmartToy,
   symRoundedStat2,
   symRoundedWarning,
@@ -39,3 +41,5 @@ export const goToTopIcon = symRoundedStat2
 // Pages
 export const examplesIcon = symRoundedSmartToy
 export const dashboardIcon = symRoundedGridView
+export const notificationsIcon = symRoundedNotifications
+export const settingsIcon = symRoundedSettings

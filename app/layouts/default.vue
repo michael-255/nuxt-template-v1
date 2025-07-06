@@ -1,5 +1,5 @@
 <template>
   <QLayout view="hHh lpr lfr">
-    <LayoutsPageContainerSlot />
+    <LayoutsContainer />
   </QLayout>
 </template>
