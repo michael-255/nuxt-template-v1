@@ -1,14 +1,6 @@
 <script setup lang="ts">
-import {
-  dashboardIcon,
-  errorIcon,
-  examplesIcon,
-  goToTopIcon,
-  infoIcon,
-  warnIcon,
-} from '#shared/constants'
+import { dashboardIcon, errorIcon, examplesIcon, infoIcon, warnIcon } from '#shared/constants'
 import { useQuasar } from 'quasar'
-import { computed } from 'vue'
 
 const $q = useQuasar()
 const isDesktop = computed(() => $q.screen.gt.xs)
@@ -40,25 +32,6 @@ const isDesktop = computed(() => $q.screen.gt.xs)
       </QTabs>
     </QHeader>
 
-    <QPageContainer>
-      <QPage padding>
-        <div class="row justify-center">
-          <div class="page-width-limit">
-            <slot />
-            <QSpace class="page-scroller-space" />
-          </div>
-        </div>
-
-        <QPageScroller position="bottom">
-          <QBtn fab glossy :icon="goToTopIcon" color="accent" />
-        </QPageScroller>
-      </QPage>
-    </QPageContainer>
+    <LayoutsPageContainerSlot />
   </QLayout>
 </template>
-
-<style scoped>
-.page-scroller-space {
-  height: 60px;
-}
-</style>

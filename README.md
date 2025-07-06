@@ -10,9 +10,11 @@ Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduct
 - Choose some new colors for your theme
 - WIP
 
-## Notes
+## Project Goals
 
-- Using Icons: `<UIcon name="material-symbols:info" style="color: black" size="5em" />`
+- Provide a solid foundation for new Nuxt applications
+- Integrate Supabase for authentication and database management
+- Provide a test `ExampleApp` route for testing database subscriptions (live queries)
 
 ## Setup
 
