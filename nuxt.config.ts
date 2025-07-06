@@ -59,6 +59,6 @@ export default defineNuxtConfig({
         ],
       },
     },
-    plugins: ['Dialog', 'Meta', 'Notify'],
+    plugins: ['Dialog', 'Meta', 'Notify', 'Loading'],
   },
 })

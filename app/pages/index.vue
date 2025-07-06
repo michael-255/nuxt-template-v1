@@ -10,24 +10,10 @@ definePageMeta({
 
 const dashboardButtons = [
   {
-    label: 'Settings',
-    icon: infoIcon,
-    color: 'secondary',
-  },
-  {
     label: 'Examples',
     icon: infoIcon,
     color: 'primary',
-  },
-  {
-    label: 'Budget',
-    icon: infoIcon,
-    color: 'positive',
-  },
-  {
-    label: 'Fitness',
-    icon: infoIcon,
-    color: 'negative',
+    to: '/examples',
   },
 ]
 </script>
@@ -37,7 +23,14 @@ const dashboardButtons = [
 
   <div class="row q-col-gutter-md q-pa-sm">
     <div v-for="button in dashboardButtons" :key="button.label" class="col-6">
-      <QBtn class="dashboard-btn full-width q-py-lg" stack glossy no-caps :color="button.color">
+      <QBtn
+        class="dashboard-btn full-width q-py-lg"
+        stack
+        glossy
+        no-caps
+        :color="button.color"
+        :to="button.to"
+      >
         <QIcon :name="button.icon" size="4rem" />
         <div class="q-mt-sm text-h6">{{ button.label }}</div>
       </QBtn>

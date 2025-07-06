@@ -11,6 +11,8 @@ defineProps<{
       <QIcon class="on-left q-pb-xs" :name="icon" />
       {{ title }}
     </QToolbarTitle>
+
+    <slot />
   </QToolbar>
 
   <QSeparator class="q-mb-sm" />

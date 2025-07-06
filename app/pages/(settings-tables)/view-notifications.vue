@@ -1,0 +1,153 @@
+<script setup lang="ts">
+import { DialogInspectNotification } from '#components'
+import { useRouting, type NotificationType } from '#imports'
+import { appTitle, closeIcon, columnsIcon, notificationsIcon, searchIcon } from '#shared/constants'
+import {
+  columnOptionsFromTableColumns,
+  hiddenTableColumn,
+  recordsCount,
+  tableColumn,
+  visibleColumnsFromTableColumns,
+} from '#shared/utils/utils'
+import useLogger from '@/composables/useLogger'
+import { useMeta, useQuasar, type QTableColumn } from 'quasar'
+import { onUnmounted, ref, type Ref } from 'vue'
+import { localDatabase } from '~/utils/local-database'
+
+useMeta({ title: `${appTitle} | View Notifications` })
+
+const $q = useQuasar()
+const logger = useLogger()
+const { goBack } = useRouting()
+
+const labelSingular = 'Notification'
+const labelPlural = 'Notifications'
+const searchFilter: Ref<string> = ref('')
+const tableColumns = [
+  hiddenTableColumn('id'),
+  tableColumn('id', 'Id', 'UUID'),
+  tableColumn('created_at', 'Created Date', 'ISO-DATE'),
+]
+const columnOptions: Ref<QTableColumn[]> = ref(columnOptionsFromTableColumns(tableColumns))
+const visibleColumns: Ref<string[]> = ref(visibleColumnsFromTableColumns(tableColumns))
+
+const liveData: Ref<NotificationType[]> = ref([])
+const isLiveQueryFinished = ref(false)
+
+const subscription = localDatabase.liveNotifications().subscribe({
+  next: (data) => {
+    liveData.value = data
+    isLiveQueryFinished.value = true
+  },
+  error: (error) => {
+    logger.error(`Error loading live ${labelPlural} data`, error as Error)
+    isLiveQueryFinished.value = true
+  },
+})
+
+/**
+ * Opens the Inspect Notification dialog using the data from the clicked row.
+ */
+function onInspectNotification(record: Record<string, any>) {
+  return $q.dialog({
+    component: DialogInspectNotification,
+    componentProps: { record },
+  })
+}
+
+onUnmounted(() => {
+  subscription.unsubscribe()
+})
+</script>
+
+<template>
+  <QTable
+    fullscreen
+    :rows="liveData"
+    :columns="tableColumns"
+    :visible-columns="visibleColumns"
+    :rows-per-page-options="[0]"
+    :filter="searchFilter"
+    virtual-scroll
+    row-key="id"
+  >
+    <template #header="props">
+      <QTr :props="props">
+        <QTh
+          v-for="col in props.cols"
+          v-show="col.name !== 'hidden'"
+          :key="col.name"
+          :props="props"
+        >
+          {{ col.label }}
+        </QTh>
+      </QTr>
+    </template>
+
+    <template #body="props">
+      <QTr :props="props" class="cursor-pointer" @click="onInspectNotification(props.row)">
+        <QTd v-for="col in props.cols" :key="col.name" :props="props">
+          {{ col.value }}
+        </QTd>
+      </QTr>
+    </template>
+
+    <template #top>
+      <div class="row justify-start full-width q-mb-md">
+        <div class="col-10 text-h6 text-bold ellipsis">
+          <QIcon class="q-pb-xs q-mr-xs" :name="notificationsIcon" />
+          {{ labelPlural }}
+        </div>
+
+        <QBtn
+          round
+          flat
+          class="absolute-top-right q-mr-sm q-mt-sm"
+          :icon="closeIcon"
+          @click="goBack()"
+        />
+      </div>
+
+      <div class="row justify-start full-width">
+        <QInput
+          v-model="searchFilter"
+          :disable="!liveData.length"
+          outlined
+          dense
+          clearable
+          debounce="300"
+          placeholder="Search"
+          class="full-width"
+        >
+          <template #after>
+            <QSelect
+              v-model="visibleColumns"
+              :options="columnOptions"
+              :disable="!liveData.length"
+              multiple
+              dense
+              options-dense
+              emit-value
+              map-options
+              option-value="name"
+              display-value=""
+              bg-color="primary"
+            >
+              <template #append>
+                <QIcon color="white" :name="columnsIcon" />
+              </template>
+            </QSelect>
+          </template>
+
+          <template #append>
+            <QIcon :name="searchIcon" />
+          </template>
+        </QInput>
+      </div>
+    </template>
+
+    <template #bottom>
+      {{ recordsCount(liveData, labelSingular, labelPlural) }}
+    </template>
+  </QTable>
+</template>

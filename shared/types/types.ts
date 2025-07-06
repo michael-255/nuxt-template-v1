@@ -24,8 +24,8 @@ import type {
 export type BackupType = {
   appTitle: string
   createdAt: TimestampzType
-  settings: SettingType[]
   logs: LogType[]
+  settings: SettingType[]
   notifications: NotificationType[]
 }
 

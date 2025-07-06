@@ -25,7 +25,12 @@ export default function useLogger() {
   /**
    * Generic notification method for displaying messages.
    */
-  function notify(message: string, icon: string, color: string, options?: Record<string, any>) {
+  function notify(
+    message: string,
+    icon: string = infoIcon,
+    color: string = 'info',
+    options?: Record<string, any>,
+  ) {
     Notify.create({
       message,
       icon,

@@ -1,13 +1,29 @@
 import {
+  symRoundedAddCircle,
   symRoundedBugReport,
   symRoundedClose,
+  symRoundedDelete,
+  symRoundedDeleteForever,
+  symRoundedDownload,
   symRoundedError,
+  symRoundedFeatureSearch,
   symRoundedGridView,
   symRoundedInfo,
+  symRoundedLock,
+  symRoundedLockOpenRight,
+  symRoundedLogout,
+  symRoundedManageSearch,
   symRoundedNotifications,
+  symRoundedPerson,
+  symRoundedPublish,
+  symRoundedRefresh,
+  symRoundedSearch,
   symRoundedSettings,
   symRoundedSmartToy,
   symRoundedStat2,
+  symRoundedStorage,
+  symRoundedTune,
+  symRoundedViewWeek,
   symRoundedWarning,
 } from '@quasar/extras/material-symbols-rounded'
 
@@ -34,12 +50,30 @@ export const infoIcon = symRoundedInfo
 export const warnIcon = symRoundedWarning
 export const errorIcon = symRoundedError
 
-// Actions
-export const closeIcon = symRoundedClose
-export const goToTopIcon = symRoundedStat2
-
 // Pages
 export const examplesIcon = symRoundedSmartToy
 export const dashboardIcon = symRoundedGridView
+export const logsIcon = symRoundedFeatureSearch
 export const notificationsIcon = symRoundedNotifications
 export const settingsIcon = symRoundedSettings
+
+// Actions
+export const createIcon = symRoundedAddCircle
+export const closeIcon = symRoundedClose
+export const goToTopIcon = symRoundedStat2
+export const lockIcon = symRoundedLock
+export const unlockIcon = symRoundedLockOpenRight
+export const importFileIcon = symRoundedPublish
+export const exportFileIcon = symRoundedDownload
+export const refreshIcon = symRoundedRefresh
+export const deleteIcon = symRoundedDelete
+export const deleteXIcon = symRoundedDeleteForever
+export const logoutIcon = symRoundedLogout
+export const searchIcon = symRoundedSearch
+
+// Design Elements
+export const userIcon = symRoundedPerson
+export const optionsIcon = symRoundedTune
+export const storageIcon = symRoundedStorage
+export const columnsIcon = symRoundedViewWeek
+export const inspectIcon = symRoundedManageSearch

@@ -1,4 +1,5 @@
 import { DurationMSEnum } from '#shared/types/enums'
+import { date, type QTableColumn } from 'quasar'
 // import type { SettingValueType } from '#shared/types/types'
 
 /**
@@ -7,18 +8,18 @@ import { DurationMSEnum } from '#shared/types/enums'
  * @param rowPropertyName Name of the property on the record for this column
  * @returns `QTableColumn`
  */
-// export function hiddenTableColumn(rowPropertyName: string): QTableColumn {
-//   return {
-//     name: 'hidden', // Needed in QTable row props
-//     label: '',
-//     align: 'left',
-//     sortable: false,
-//     required: true,
-//     field: (row: Record<string, string>) => row[rowPropertyName],
-//     format: (val: string) => `${val}`,
-//     style: 'display: none', // Hide column in QTable
-//   }
-// }
+export function hiddenTableColumn(rowPropertyName: string): QTableColumn {
+  return {
+    name: 'hidden', // Needed in QTable row props
+    label: '',
+    align: 'left',
+    sortable: false,
+    required: true,
+    field: (row: Record<string, string>) => row[rowPropertyName],
+    format: (val: string) => `${val}`,
+    style: 'display: none', // Hide column in QTable
+  }
+}
 
 /**
  * Create a standard `QTableColumn`.
@@ -27,96 +28,96 @@ import { DurationMSEnum } from '#shared/types/enums'
  * @param format How the property data should be formatted for display
  * @returns `QTableColumn`
  */
-// export function tableColumn(
-//   rowPropertyName: string,
-//   label: string,
-//   format?:
-//     | 'UUID'
-//     | 'TEXT'
-//     | 'BOOL'
-//     | 'OBJECT'
-//     | 'ISO-DATE'
-//     | 'LIST-COUNT'
-//     | 'LIST-PRINT'
-//     | 'SETTING',
-// ): QTableColumn {
-//   // Initial column properties
-//   const tableColumn: QTableColumn = {
-//     name: rowPropertyName,
-//     label: label,
-//     align: 'left',
-//     sortable: true,
-//     required: false,
-//     field: (row: Record<string, string>) => row[rowPropertyName],
-//     format: (val: string) => `${val}`, // Default converts everything to a string
-//   }
+export function tableColumn(
+  rowPropertyName: string,
+  label: string,
+  format?:
+    | 'UUID'
+    | 'TEXT'
+    | 'BOOL'
+    | 'OBJECT'
+    | 'ISO-DATE'
+    | 'LIST-COUNT'
+    | 'LIST-PRINT'
+    | 'SETTING',
+): QTableColumn {
+  // Initial column properties
+  const tableColumn: QTableColumn = {
+    name: rowPropertyName,
+    label: label,
+    align: 'left',
+    sortable: true,
+    required: false,
+    field: (row: Record<string, string>) => row[rowPropertyName],
+    format: (val: string) => `${val}`, // Default converts everything to a string
+  }
 
-//   switch (format) {
-//     case 'UUID':
-//       // Truncates so it won't overflow the table cell
-//       tableColumn.format = (val: string) => truncateText(val, 8, '*')
-//       return tableColumn
-//     case 'TEXT':
-//       // Truncates so it won't overflow the table cell
-//       tableColumn.format = (val: string) => truncateText(val, 40, '...')
-//       return tableColumn
-//     case 'BOOL':
-//       // Converts output to a Yes or No string
-//       tableColumn.format = (val: boolean) => (val ? 'Yes' : 'No')
-//       return tableColumn
-//     case 'OBJECT':
-//       // Converts to JSON and truncates so it won't overflow the table cell
-//       tableColumn.format = (val: Record<string, string>) =>
-//         truncateText(JSON.stringify(val), 40, '...')
-//       return tableColumn
-//     case 'ISO-DATE':
-//       // Converts to a compact date string
-//       tableColumn.format = (val: string) => compactDateFromISODate(val)
-//       return tableColumn
-//     case 'LIST-COUNT':
-//       // Converts list to a count of the number of items
-//       tableColumn.format = (val: any[]) => `${val?.length ? val.length : 0}`
-//       return tableColumn
-//     case 'LIST-PRINT':
-//       // Prints the list as a truncated string
-//       tableColumn.format = (val: any[]) => truncateText(val.join(', '), 40, '...')
-//       return tableColumn
-//     case 'SETTING':
-//       // Formats the setting value based on the setting type
-//       tableColumn.format = (val: SettingValueType) => {
-//         if (val === true) {
-//           return 'Yes'
-//         } else if (val === false) {
-//           return 'No'
-//         } else {
-//           return `${val}`
-//         }
-//       }
-//       return tableColumn
-//     default:
-//       // STRING: Default just converts the result to a string with no length limit
-//       return tableColumn
-//   }
-// }
+  switch (format) {
+    case 'UUID':
+      // Truncates so it won't overflow the table cell
+      tableColumn.format = (val: string) => truncateText(val, 8, '*')
+      return tableColumn
+    case 'TEXT':
+      // Truncates so it won't overflow the table cell
+      tableColumn.format = (val: string) => truncateText(val, 40, '...')
+      return tableColumn
+    case 'BOOL':
+      // Converts output to a Yes or No string
+      tableColumn.format = (val: boolean) => (val ? 'Yes' : 'No')
+      return tableColumn
+    case 'OBJECT':
+      // Converts to JSON and truncates so it won't overflow the table cell
+      tableColumn.format = (val: Record<string, string>) =>
+        truncateText(JSON.stringify(val), 40, '...')
+      return tableColumn
+    case 'ISO-DATE':
+      // Converts to a compact date string
+      tableColumn.format = (val: string) => compactDateFromISODate(val)
+      return tableColumn
+    case 'LIST-COUNT':
+      // Converts list to a count of the number of items
+      tableColumn.format = (val: any[]) => `${val?.length ? val.length : 0}`
+      return tableColumn
+    case 'LIST-PRINT':
+      // Prints the list as a truncated string
+      tableColumn.format = (val: any[]) => truncateText(val.join(', '), 40, '...')
+      return tableColumn
+    case 'SETTING':
+      // Formats the setting value based on the setting type
+      tableColumn.format = (val: SettingValueType) => {
+        if (val === true) {
+          return 'Yes'
+        } else if (val === false) {
+          return 'No'
+        } else {
+          return `${val}`
+        }
+      }
+      return tableColumn
+    default:
+      // STRING: Default just converts the result to a string with no length limit
+      return tableColumn
+  }
+}
 
 /**
  * Column options from a `QTableColumn` array for your `QTable`.
  * @param tableColumns Your `QTableColumn` array
  * @returns `QTableColumn[]`
  */
-// export function columnOptionsFromTableColumns(tableColumns: QTableColumn[]) {
-//   return tableColumns.filter((col) => !col.required)
-// }
+export function columnOptionsFromTableColumns(tableColumns: QTableColumn[]) {
+  return tableColumns.filter((col) => !col.required)
+}
 
 /**
  * Visible columns from a `QTableColumn` array for your `QTable`.
  * @param tableColumns Your `QTableColumn` array
  * @returns `string[]`
  */
-// export function visibleColumnsFromTableColumns(tableColumns: QTableColumn[]) {
-//   const columnOptions = columnOptionsFromTableColumns(tableColumns).filter((col) => !col.required)
-//   return columnOptions.map((col) => col.name)
-// }
+export function visibleColumnsFromTableColumns(tableColumns: QTableColumn[]) {
+  const columnOptions = columnOptionsFromTableColumns(tableColumns).filter((col) => !col.required)
+  return columnOptions.map((col) => col.name)
+}
 
 /**
  * Display string for the number of Settings found in the live data.
@@ -153,24 +154,24 @@ export function truncateText(text: string | null | undefined, maxLength: number,
  * @param milliseconds Number of milliseconds
  * @returns `Sat, 2021 Jan 2nd, 12:00 PM`
  */
-// export function compactDateFromMs(milliseconds: number | null | undefined) {
-//   if (!milliseconds || typeof milliseconds !== 'number') {
-//     return ''
-//   }
-//   return date.formatDate(milliseconds, 'ddd, YYYY MMM Do, h:mm A')
-// }
+export function compactDateFromMs(milliseconds: number | null | undefined) {
+  if (!milliseconds || typeof milliseconds !== 'number') {
+    return ''
+  }
+  return date.formatDate(milliseconds, 'ddd, YYYY MMM Do, h:mm A')
+}
 
 /**
  * Compact readable date string from an ISO date string or an `Invalid Date` string.
  * @param isoDate ISO date string
  * @returns `Sat, 2021 Jan 2nd, 12:00 PM`
  */
-// export function compactDateFromISODate(isoDate?: string) {
-//   if (!isoDate) {
-//     return 'Invalid Date'
-//   }
-//   return date.formatDate(new Date(isoDate), 'ddd, YYYY MMM Do, h:mm A')
-// }
+export function compactDateFromISODate(isoDate?: string) {
+  if (!isoDate) {
+    return 'Invalid Date'
+  }
+  return date.formatDate(new Date(isoDate), 'ddd, YYYY MMM Do, h:mm A')
+}
 
 /**
  * Readable time duration string from milliseconds or an empty string if your value is below one

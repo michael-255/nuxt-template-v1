@@ -19,21 +19,21 @@ import { Setting } from '~/models/Setting'
  */
 export class LocalDatabase extends Dexie {
   // Required for easier TypeScript usage
-  [LocalTableEnum.SETTINGS]!: Table<Setting>;
   [LocalTableEnum.LOGS]!: Table<Log>;
+  [LocalTableEnum.SETTINGS]!: Table<Setting>;
   [LocalTableEnum.NOTIFICATIONS]!: Table<Notification>
 
   constructor(name: string) {
     super(name)
 
     this.version(1).stores({
-      [LocalTableEnum.SETTINGS]: '&id',
       [LocalTableEnum.LOGS]: '&id, created_at',
+      [LocalTableEnum.SETTINGS]: '&id',
       [LocalTableEnum.NOTIFICATIONS]: '&id, created_at',
     })
 
-    this[LocalTableEnum.SETTINGS].mapToClass(Setting)
     this[LocalTableEnum.LOGS].mapToClass(Log)
+    this[LocalTableEnum.SETTINGS].mapToClass(Setting)
     this[LocalTableEnum.NOTIFICATIONS].mapToClass(Notification)
   }
 
@@ -109,7 +109,7 @@ export class LocalDatabase extends Dexie {
   }
 
   /**
-   * Returns an observable of the logs in the database. The logs are ordered by createdAt in
+   * Returns an observable of the logs in the database. The logs are ordered by created_at in
    * descending order. This is a live query, so it will update automatically when the database
    * changes.
    */
@@ -120,12 +120,23 @@ export class LocalDatabase extends Dexie {
   }
 
   /**
-   * Returns an observable of the images in the database. The images are ordered by createdAt in
-   * descending order. This is a live query, so it will update automatically when the database
+   * Returns an observable of the settings in the database. The settings are ordered by created_at
+   * in descending order. This is a live query, so it will update automatically when the database
    * changes.
    */
   liveSettings(): Observable<SettingType[]> {
     return liveQuery(() => this.table(LocalTableEnum.SETTINGS).toArray())
+  }
+
+  /**
+   * Returns an observable of the notifications in the database. The notifications are ordered by
+   * created_at in descending order. This is a live query, so it will update automatically when
+   * the database changes.
+   */
+  liveNotifications(): Observable<Notification[]> {
+    return liveQuery(() =>
+      this.table(LocalTableEnum.NOTIFICATIONS).orderBy('created_at').reverse().toArray(),
+    )
   }
 }
 

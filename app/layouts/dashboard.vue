@@ -24,6 +24,6 @@ const isDesktop = computed(() => $q.screen.gt.xs)
       </QTabs>
     </QHeader>
 
-    <LayoutsContainer />
+    <LayoutContainer />
   </QLayout>
 </template>

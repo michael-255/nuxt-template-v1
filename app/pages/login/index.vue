@@ -4,16 +4,19 @@ import { QBtn, QInput } from 'quasar'
 import { ref } from 'vue'
 import { appTitle } from '~~/shared/constants'
 
+useMeta({ title: `${appTitle} | Login` })
+
+const $q = useQuasar()
 const logger = useLogger()
 const supabase = useSupabaseClient()
+const settingsStore = useSettingsStore()
 
-const email = ref('')
+const email = ref(settingsStore.userEmail || '')
 const password = ref('')
-const loading = ref(false)
 
 async function login() {
   try {
-    loading.value = true
+    $q.loading.show()
 
     const { error: loginError } = await supabase.auth.signInWithPassword({
       email: email.value,
@@ -29,15 +32,15 @@ async function login() {
   } catch (error) {
     logger.error('Unexpected login error', error as Error)
   } finally {
-    loading.value = false
+    $q.loading.hide()
   }
 }
 </script>
 
 <template>
-  <div class="flex flex-center form-container">
-    <QForm class="q-pa-lg form-extra" @submit.prevent="login">
-      <h4>{{ appTitle }}</h4>
+  <div class="flex flex-center content-container">
+    <QForm class="q-pa-lg content-extra" @submit.prevent="login">
+      <h4 class="text-center">{{ appTitle }}</h4>
 
       <div class="text-h5 q-mb-lg">Login</div>
 
@@ -51,7 +54,7 @@ async function login() {
         :rules="[
           (val: string) => emailSchema.safeParse(val).success || 'Must be a valid email address',
         ]"
-        :disable="loading"
+        :disable="$q.loading.isActive"
       />
 
       <QInput
@@ -61,7 +64,7 @@ async function login() {
         outlined
         class="q-mb-md"
         :rules="[(val: string) => !!val || 'Password is required']"
-        :disable="loading"
+        :disable="$q.loading.isActive"
       />
 
       <QBtn
@@ -69,19 +72,18 @@ async function login() {
         color="primary"
         type="submit"
         class="q-mt-md full-width"
-        :loading="loading"
-        :disable="loading"
+        :disable="$q.loading.isActive"
       />
     </QForm>
   </div>
 </template>
 
 <style scoped>
-.form-container {
+.content-container {
   min-height: 80vh;
 }
 
-.form-extra {
+.content-extra {
   max-width: 400px;
   width: 100%;
 }
