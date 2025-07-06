@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { DialogInspectSetting } from '#components'
-import { appTitle, closeIcon, settingsIcon } from '#shared/constants'
+import { appTitle, closeIcon } from '#shared/constants'
 import type { SettingType } from '#shared/types/types'
 import { recordsCount, tableColumn, visibleColumnsFromTableColumns } from '#shared/utils/utils'
 import { useMeta, useQuasar } from 'quasar'
@@ -78,7 +78,6 @@ onUnmounted(() => {
     <template #top>
       <div class="row justify-start full-width q-mb-md">
         <div class="col-10 text-h6 text-bold ellipsis">
-          <QIcon class="q-pb-xs q-mr-xs" :name="settingsIcon" />
           {{ labelPlural }}
         </div>
 

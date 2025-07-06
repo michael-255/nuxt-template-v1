@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { DialogInspectLog } from '#components'
 import { useRouting } from '#imports'
-import { appTitle, closeIcon, columnsIcon, logsIcon, searchIcon } from '#shared/constants'
+import { appTitle, closeIcon, columnsIcon, searchIcon } from '#shared/constants'
 import {
   columnOptionsFromTableColumns,
   hiddenTableColumn,
@@ -98,7 +98,6 @@ onUnmounted(() => {
     <template #top>
       <div class="row justify-start full-width q-mb-md">
         <div class="col-10 text-h6 text-bold ellipsis">
-          <QIcon class="q-pb-xs q-mr-xs" :name="logsIcon" />
           {{ labelPlural }}
         </div>
 
