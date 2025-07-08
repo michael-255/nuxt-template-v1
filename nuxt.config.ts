@@ -33,13 +33,13 @@ export default defineNuxtConfig({
     config: {
       dark: true,
       brand: {
-        primary: '#1976d2', // Blue
-        secondary: '#607d8b', // Blue Grey
-        accent: '#673ab7', // Deep Purple
-        info: '#0d47a1', // Dark Blue
-        warning: '#ff6f00', // Amber
-        negative: '#C10015', // Red
-        positive: '#4caf50', // Green
+        primary: '#1976d2', // blue-8
+        secondary: '#607d8b', // blue-grey
+        accent: '#e91e63', // pink
+        info: '#673ab7', // deep-purple
+        warning: '#ff6f00', // amber-10
+        negative: '#b71c1c', // red-10
+        positive: '#4caf50', // green
         dark: '#1d1d1d',
         'dark-page': '#121212',
       },

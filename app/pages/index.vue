@@ -8,7 +8,7 @@ const dashboardButtons = [
   {
     label: 'Examples',
     icon: examplesIcon,
-    color: 'info',
+    color: 'primary',
     to: '/examples',
   },
 ]

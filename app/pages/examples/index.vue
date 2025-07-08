@@ -19,10 +19,7 @@ const records = ref([])
     <SharedMessage
       v-if="records && records.length == 0"
       :title="`No Examples Found`"
-      :messages="[
-        'If this is your first time using the app, try creating a new Exercise below.',
-        'Don\'t see an Exercise that you created? Make sure it does not have the hidden status.',
-      ]"
+      :messages="['Click below to create an Example.']"
       palette-color="positive"
       button-label="Create Example"
       @on-empty-action="() => logger.debug('clicked')"
