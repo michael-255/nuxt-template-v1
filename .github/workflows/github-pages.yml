@@ -1,4 +1,4 @@
-name: Deploy static content to GitHub Pages
+name: GitHub Pages
 
 run-name:
   GitHub Pages - ${{ github.event.head_commit.message || github.event.pull_request.title || 'Manual

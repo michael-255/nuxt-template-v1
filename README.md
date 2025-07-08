@@ -5,7 +5,9 @@ foundation for new apps.
 
 ## TODO
 
+- Generate types for Supabase tables (GitHub Action?)
 - Develop notifications/reminders solution
+- Test SQL for solution in Supabase
 
 ## Project Goals
 

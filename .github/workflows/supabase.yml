@@ -1,4 +1,4 @@
-name: Deploy Supabase
+name: Supabase
 
 run-name: Supabase - ${{ github.event.head_commit.message || 'Manual Run' }}
 
