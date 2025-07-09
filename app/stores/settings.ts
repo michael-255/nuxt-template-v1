@@ -1,6 +1,6 @@
-import { SettingIdEnum } from '#shared/types/enums'
 import type { SettingType } from '#shared/types/types'
 import { defineStore } from 'pinia'
+import { settingNames } from '~~/shared/constants'
 
 /**
  * The default values for each setting are defined in `local-database.ts`
@@ -17,24 +17,25 @@ export const useSettingsStore = defineStore('settings', {
   getters: {
     // Supabase
     userEmail: (state) => {
-      return state.settings.find((s: SettingType) => s.id === SettingIdEnum.USER_EMAIL)
+      return state.settings.find((s: SettingType) => s.id === settingNames.enum['User Email'])
         ?.value as string
     },
 
     // App
     consoleLogs: (state) => {
-      return state.settings.find((s: SettingType) => s.id === SettingIdEnum.CONSOLE_LOGS)
+      return state.settings.find((s: SettingType) => s.id === settingNames.enum['Console Logs'])
         ?.value as boolean
     },
 
     infoPopus: (state) => {
-      return state.settings.find((s: SettingType) => s.id === SettingIdEnum.INFO_POPUPS)
+      return state.settings.find((s: SettingType) => s.id === settingNames.enum['Info Popups'])
         ?.value as boolean
     },
 
     logRetentionDuration: (state) => {
-      return state.settings.find((s: SettingType) => s.id === SettingIdEnum.LOG_RETENTION_DURATION)
-        ?.value as string
+      return state.settings.find(
+        (s: SettingType) => s.id === settingNames.enum['Log Rentention Duration'],
+      )?.value as string
     },
   },
 })

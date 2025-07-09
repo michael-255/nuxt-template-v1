@@ -1,6 +1,36 @@
-import { DurationMSEnum } from '#shared/types/enums'
 import { date, type QTableColumn } from 'quasar'
-// import type { SettingValueType } from '#shared/types/types'
+import type { DurationNameType } from '../types/types'
+
+/**
+ * Used to look up the duration in milliseconds for a given duration name..
+ */
+export const durationLookup: Record<DurationNameType, number> = {
+  Now: 1,
+  'One Second': 1_000,
+  'One Minute': 60_000,
+  'One Hour': 3_600_000,
+  'One Day': 86_400_000,
+  'One Week': 604_800_000,
+  'One Month': 2_592_000_000,
+  'Three Months': 7_776_000_000,
+  'Six Months': 15_552_000_000,
+  'One Year': 31_536_000_000,
+  'Two Years': 63_072_000_000,
+  'Three Years': 94_608_000_000,
+  'All Time': 9007199254740990, // So it doesn't match 'Forever'
+  Forever: 9007199254740991, // Number.MAX_SAFE_INTEGER
+} as const
+
+/**
+ * Used to look up limit rules for app inputs.
+ * Test against these directly instead of using a Zod schema.
+ * @example
+ * val.length <= limitRulesLookup.maxTextArea
+ */
+export const limitRuleLookup = {
+  maxTextArea: 300,
+  maxTextLine: 50,
+} as const
 
 /**
  * Create a hidden `QTableColumn`. Use this to hide a column that may be needed for `QTable` row
@@ -179,19 +209,19 @@ export function compactDateFromISODate(isoDate?: string) {
  * @param milliseconds Number of milliseconds
  * @returns `9d 9h 9m 9s`
  */
-export function durationFromMs(milliseconds: number | null | undefined): string | null | undefined {
+export function timeFromMs(milliseconds: number | null | undefined): string | null | undefined {
   if (
     !milliseconds ||
     typeof milliseconds !== 'number' ||
-    milliseconds < DurationMSEnum['One Second']
+    milliseconds < durationLookup['One Second']
   ) {
     return ''
   }
 
-  const seconds = Math.floor((milliseconds / DurationMSEnum['One Second']) % 60)
-  const minutes = Math.floor((milliseconds / DurationMSEnum['One Minute']) % 60)
-  const hours = Math.floor((milliseconds / DurationMSEnum['One Hour']) % 24)
-  const days = Math.floor(milliseconds / DurationMSEnum['One Day'])
+  const seconds = Math.floor((milliseconds / durationLookup['One Second']) % 60)
+  const minutes = Math.floor((milliseconds / durationLookup['One Minute']) % 60)
+  const hours = Math.floor((milliseconds / durationLookup['One Hour']) % 24)
+  const days = Math.floor(milliseconds / durationLookup['One Day'])
 
   const daysStr = days > 0 ? `${days}d ` : ''
   const hoursStr = hours > 0 ? `${hours}h ` : ''
@@ -216,44 +246,44 @@ export function timeAgo(milliseconds: number): {
   const absDiff = Math.abs(diff)
   const isPast = diff < 0
 
-  if (absDiff < DurationMSEnum['One Minute']) {
+  if (absDiff < durationLookup['One Minute']) {
     return { message: 'just now', color: 'primary' }
   }
 
   const units = [
     {
-      max: DurationMSEnum['One Hour'],
-      value: DurationMSEnum['One Minute'],
+      max: durationLookup['One Hour'],
+      value: durationLookup['One Minute'],
       name: 'minute',
       color: 'primary',
     },
     {
-      max: DurationMSEnum['One Day'],
-      value: DurationMSEnum['One Hour'],
+      max: durationLookup['One Day'],
+      value: durationLookup['One Hour'],
       name: 'hour',
       color: 'primary',
     },
     {
-      max: DurationMSEnum['One Week'],
-      value: DurationMSEnum['One Day'],
+      max: durationLookup['One Week'],
+      value: durationLookup['One Day'],
       name: 'day',
       color: 'positive',
     },
     {
-      max: DurationMSEnum['One Month'],
-      value: DurationMSEnum['One Week'],
+      max: durationLookup['One Month'],
+      value: durationLookup['One Week'],
       name: 'week',
       color: 'positive',
     },
     {
-      max: DurationMSEnum['One Year'],
-      value: DurationMSEnum['One Month'],
+      max: durationLookup['One Year'],
+      value: durationLookup['One Month'],
       name: 'month',
       color: 'amber',
     },
     {
       max: Number.POSITIVE_INFINITY,
-      value: DurationMSEnum['One Year'],
+      value: durationLookup['One Year'],
       name: 'year',
       color: 'warning',
     },

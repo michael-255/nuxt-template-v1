@@ -1,5 +1,12 @@
-import { appTitle, debugIcon, errorIcon, infoIcon, warnIcon } from '#shared/constants'
-import { LocalTableEnum, LogLevelEnum } from '#shared/types/enums'
+import {
+  appTitle,
+  debugIcon,
+  errorIcon,
+  infoIcon,
+  localTables,
+  logLevels,
+  warnIcon,
+} from '#shared/constants'
 import type { LogDetailsType } from '#shared/types/types'
 import { Log } from '@/models/Log'
 import { Notify, colors } from 'quasar'
@@ -49,70 +56,70 @@ export default function useLogger() {
   /**
    * Show a notification debug message while in development mode.
    */
-  function debug(name: string, details?: LogDetailsType) {
+  function debug(label: string, details?: LogDetailsType) {
     if (import.meta.env.DEV) {
-      console.log(loggerName, style.debug, `[${LogLevelEnum.DEBUG}]`, name, details)
-      Notify.create({ message: name, icon: debugIcon, color: 'info' })
+      console.log(loggerName, style.debug, `[${logLevels.enum.DEBUG}]`, label, details)
+      Notify.create({ message: label, icon: debugIcon, color: 'info' })
     }
   }
 
   /**
    * Info notification and logging.
    */
-  async function info(name: string, details?: LogDetailsType) {
+  async function info(label: string, details?: LogDetailsType) {
     if (settingsStore.consoleLogs) {
-      console.log(loggerName, style.info, `[${LogLevelEnum.INFO}]`, name, details)
+      console.log(loggerName, style.info, `[${logLevels.enum.INFO}]`, label, details)
     }
 
     const log = new Log({
-      logLevel: LogLevelEnum.INFO,
-      label: name,
+      logLevel: logLevels.enum.INFO,
+      label,
       details,
     })
 
-    await localDatabase.table(LocalTableEnum.LOGS).add(log)
+    await localDatabase.table(localTables.enum.logs).add(log)
 
     if (settingsStore.infoPopus) {
-      Notify.create({ message: name, icon: infoIcon, color: 'primary' })
+      Notify.create({ message: label, icon: infoIcon, color: 'primary' })
     }
   }
 
   /**
    * Warning notification and logging.
    */
-  async function warn(name: string, details?: LogDetailsType) {
+  async function warn(label: string, details?: LogDetailsType) {
     if (settingsStore.consoleLogs) {
-      console.warn(loggerName, style.warn, `[${LogLevelEnum.WARN}]`, name, details)
+      console.warn(loggerName, style.warn, `[${logLevels.enum.WARN}]`, label, details)
     }
 
     const log = new Log({
-      logLevel: LogLevelEnum.WARN,
-      label: name,
+      logLevel: logLevels.enum.WARN,
+      label,
       details,
     })
 
-    await localDatabase.table(LocalTableEnum.LOGS).add(log)
+    await localDatabase.table(localTables.enum.logs).add(log)
 
-    Notify.create({ message: name, icon: warnIcon, color: 'warning' })
+    Notify.create({ message: label, icon: warnIcon, color: 'warning' })
   }
 
   /**
    * Error notification and logging.
    */
-  async function error(name: string, details?: LogDetailsType) {
+  async function error(label: string, details?: LogDetailsType) {
     if (settingsStore.consoleLogs) {
-      console.error(loggerName, style.error, `[${LogLevelEnum.ERROR}]`, name, details)
+      console.error(loggerName, style.error, `[${logLevels.enum.ERROR}]`, label, details)
     }
 
     const log = new Log({
-      logLevel: LogLevelEnum.ERROR,
-      label: name,
+      logLevel: logLevels.enum.ERROR,
+      label,
       details,
     })
 
-    await localDatabase.table(LocalTableEnum.LOGS).add(log)
+    await localDatabase.table(localTables.enum.logs).add(log)
 
-    Notify.create({ message: name, icon: errorIcon, color: 'negative' })
+    Notify.create({ message: label, icon: errorIcon, color: 'negative' })
   }
 
   return {

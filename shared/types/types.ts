@@ -1,17 +1,12 @@
 import type { z } from 'zod'
+import type { durationNames, logLevels, settingNames } from '../constants'
 import type {
   idSchema,
-  localTableSchema,
   logDetailsSchema,
   logLabelSchema,
-  logLevelSchema,
   logSchema,
-  settingIdSchema,
   settingSchema,
   settingValueSchema,
-  tableSchema,
-  textAreaSchema,
-  textLineSchema,
   timestampzSchema,
 } from './schemas'
 
@@ -30,18 +25,15 @@ export type BackupType = {
 // Shared
 //
 
-export type TextLineType = z.infer<typeof textLineSchema>
-export type TextAreaType = z.infer<typeof textAreaSchema>
-export type LocalTableType = z.infer<typeof localTableSchema>
-export type TableType = z.infer<typeof tableSchema>
 export type IdType = z.infer<typeof idSchema>
 export type TimestampzType = z.infer<typeof timestampzSchema>
+export type DurationNameType = z.infer<typeof durationNames>
 
 //
 // Settings
 //
 
-export type SettingIdType = z.infer<typeof settingIdSchema>
+export type SettingNameType = z.infer<typeof settingNames>
 export type SettingValueType = z.infer<typeof settingValueSchema>
 export type SettingType = z.infer<typeof settingSchema>
 
@@ -49,7 +41,7 @@ export type SettingType = z.infer<typeof settingSchema>
 // Logs
 //
 
-export type LogLevelType = z.infer<typeof logLevelSchema>
+export type LogLevelType = z.infer<typeof logLevels>
 export type LogLabelType = z.infer<typeof logLabelSchema>
 export type LogDetailsType = z.infer<typeof logDetailsSchema>
 export type LogType = z.infer<typeof logSchema>

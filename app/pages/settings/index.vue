@@ -7,18 +7,20 @@ import {
   debugIcon,
   deleteIcon,
   deleteXIcon,
+  durationNames,
   exportFileIcon,
   importFileIcon,
+  localTables,
   logoutIcon,
   logsIcon,
   optionsIcon,
   refreshIcon,
+  settingNames,
   settingsIcon,
   storageIcon,
   userIcon,
   warnIcon,
 } from '#shared/constants'
-import { DurationEnum, LocalTableEnum, SettingIdEnum } from '#shared/types/enums'
 import { logSchema, settingSchema } from '#shared/types/schemas'
 import type { BackupType, LogType, SettingType } from '#shared/types/types'
 import { useSettingsStore } from '@/stores/settings'
@@ -38,12 +40,12 @@ const settingsStore = useSettingsStore()
 const isDevMode = import.meta.env.DEV
 const importFile: Ref<File | null> = ref(null)
 const logRetentionOptions = [
-  DurationEnum['One Week'],
-  DurationEnum['One Month'],
-  DurationEnum['Three Months'],
-  DurationEnum['Six Months'],
-  DurationEnum['One Year'],
-  DurationEnum.Forever,
+  durationNames.enum['One Week'],
+  durationNames.enum['One Month'],
+  durationNames.enum['Three Months'],
+  durationNames.enum['Six Months'],
+  durationNames.enum['One Year'],
+  durationNames.enum.Forever,
 ]
 
 /**
@@ -139,7 +141,7 @@ function onImportBackup() {
 
       // Put settings into the local database over existing settings
       await Promise.all(
-        validSettings.map((record) => localDatabase.table(LocalTableEnum.SETTINGS).put(record)),
+        validSettings.map((record) => localDatabase.table(localTables.enum.settings).put(record)),
       )
 
       logger.info('Successfully imported Settings', {
@@ -147,7 +149,7 @@ function onImportBackup() {
         invalid: invalidSettings.length,
       })
 
-      await localDatabase.table(LocalTableEnum.LOGS).bulkAdd(validLogs)
+      await localDatabase.table(localTables.enum.logs).bulkAdd(validLogs)
 
       logger.info('Successfully imported Logs', {
         valid: validLogs.length,
@@ -187,8 +189,8 @@ function onExportBackup() {
       const backup: BackupType = {
         appTitle: appTitle,
         createdAt: new Date().toISOString(),
-        logs: await localDatabase.table(LocalTableEnum.LOGS).toArray(),
-        settings: await localDatabase.table(LocalTableEnum.SETTINGS).toArray(),
+        logs: await localDatabase.table(localTables.enum.logs).toArray(),
+        settings: await localDatabase.table(localTables.enum.settings).toArray(),
       }
 
       logger.debug('backup:', backup)
@@ -230,7 +232,7 @@ function onResetSettings() {
   }).onOk(async () => {
     try {
       $q.loading.show()
-      await localDatabase.table(LocalTableEnum.SETTINGS).clear()
+      await localDatabase.table(localTables.enum.settings).clear()
       await localDatabase.initializeSettings()
       await supabase.auth.signOut() // TODO - Triggers redirect to login page right away?
       logger.info('Successfully reset Settings')
@@ -258,7 +260,7 @@ function onDeleteLogs() {
   }).onOk(async () => {
     try {
       $q.loading.show()
-      await localDatabase.table(LocalTableEnum.LOGS).clear()
+      await localDatabase.table(localTables.enum.logs).clear()
       logger.info('Successfully deleted Logs')
     } catch (error) {
       logger.error('Error deleting Logs', error as Error)
@@ -382,8 +384,8 @@ function onTestLogs() {
           :disable="$q.loading.isActive"
           size="lg"
           @update:model-value="
-            localDatabase.table(LocalTableEnum.SETTINGS).put({
-              id: SettingIdEnum.CONSOLE_LOGS,
+            localDatabase.table(localTables.enum.settings).put({
+              id: settingNames.enum['Console Logs'],
               value: $event,
             })
           "
@@ -405,8 +407,8 @@ function onTestLogs() {
           :disable="$q.loading.isActive"
           size="lg"
           @update:model-value="
-            localDatabase.table(LocalTableEnum.SETTINGS).put({
-              id: SettingIdEnum.INFO_POPUPS,
+            localDatabase.table(localTables.enum.settings).put({
+              id: settingNames.enum['Info Popups'],
               value: $event,
             })
           "
@@ -432,8 +434,8 @@ function onTestLogs() {
           label="Duration"
           class="log-retention-width"
           @update:model-value="
-            localDatabase.table(LocalTableEnum.SETTINGS).put({
-              id: SettingIdEnum.LOG_RETENTION_DURATION,
+            localDatabase.table(localTables.enum.settings).put({
+              id: settingNames.enum['Log Rentention Duration'],
               value: $event,
             })
           "

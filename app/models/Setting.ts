@@ -1,7 +1,7 @@
-import type { SettingIdType, SettingValueType } from '#shared/types/types'
+import type { SettingNameType, SettingValueType } from '#shared/types/types'
 
 interface SettingParams {
-  id: SettingIdType // Instead of standard ID
+  id: SettingNameType // Instead of standard Id
   value: SettingValueType
 }
 
@@ -10,7 +10,7 @@ interface SettingParams {
  * queried during startup in `App.vue` and inserted into a store for easy access.
  */
 export class Setting {
-  id: SettingIdType // Instead of standard ID
+  id: SettingNameType // Instead of standard Id
   value: SettingValueType
 
   constructor(params: SettingParams) {
