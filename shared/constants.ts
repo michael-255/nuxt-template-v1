@@ -43,7 +43,7 @@ export const appTitle = 'Nuxt Template App'
 export const appDescription = `${appTitle} is a foundation for building web apps.`
 
 export const displayDateFormat = 'ddd, YYYY MMM Do, h:mm A' // Sun, 2024 Sep 1st, 12:17 PM
-export const pickerDateFormat = 'ddd MMM DD YYYY HH:mm:00' // Sun Sep 01 2024 12:17:00
+export const pickerDateFormat = 'YYYY-MM-DDTHH:mm'
 
 export const localTables = z.enum(['settings', 'logs'])
 
