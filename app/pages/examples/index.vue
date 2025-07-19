@@ -19,7 +19,9 @@ function onCreate() {
     component: DialogCreate,
     componentProps: {
       label: 'Example',
+      initialRecord: {},
       recordSchema: z.any(),
+      onSubmitHandler: () => console.log('Create onSubmitHandler called'),
       formComponents: [
         { component: DialogFormItemCreatedDate },
         { component: DialogFormItemMessage },

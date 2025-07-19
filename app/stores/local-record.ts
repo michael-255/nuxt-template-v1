@@ -17,12 +17,12 @@ export const useLocalRecordStore = defineStore('local-record', {
     /**
      * Set the initial record values prior to editing or creating a record.
      */
-    setInitialState(record: Record<string, any>) {
+    setInitialRecord(record: Record<string, any>) {
       this.initialRecord = extend(true, {}, record)
       this.record = extend(true, {}, record)
     },
 
-    resetRecordToInitial() {
+    resetRecord() {
       this.record = extend(true, {}, this.initialRecord)
     },
   },

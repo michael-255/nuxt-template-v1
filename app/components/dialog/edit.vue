@@ -39,9 +39,9 @@ async function onSubmit() {
   $q.dialog({
     component: DialogConfirm,
     componentProps: {
-      title: `Create ${props.label}`,
-      message: `Are you sure you want to create this ${props.label}?`,
-      color: 'positive',
+      title: `Update ${props.label}`,
+      message: `Are you sure you want to update this ${props.label}?`,
+      color: 'warning',
       icon: saveIcon,
       requiresUnlock: true,
     },
@@ -73,7 +73,7 @@ async function onSubmit() {
   >
     <QToolbar class="bg-primary text-white toolbar-height q-pr-xs">
       <QIcon :name="createIcon" size="sm" />
-      <QToolbarTitle>Create {{ label }}</QToolbarTitle>
+      <QToolbarTitle>Edit {{ label }}</QToolbarTitle>
       <QBtn flat round :icon="refreshIcon" @click="onReset" />
       <QBtn flat round :icon="closeIcon" @click="onDialogCancel" />
     </QToolbar>
@@ -101,7 +101,7 @@ async function onSubmit() {
                     <QItemLabel>
                       <div class="row justify-center">
                         <QBtn
-                          :label="`Create ${props.label}`"
+                          :label="`Edit ${props.label}`"
                           :icon="saveIcon"
                           :disable="isDisabled"
                           color="positive"

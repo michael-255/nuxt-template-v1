@@ -5,9 +5,10 @@ foundation for new apps.
 
 ## TODO
 
-- Build the create/edit/delete Example forms
+- Build `Edit Example` dialog form
   - Add form components
-  - Convert `CreateDate` to use the ISO format to pair with SQL better
+  - Add validation
+- Build fake database calls in `data-layer` that log for now
 - Instructions overlay for the Examples route
 - Reactive your Supabase project
   - Setup GitHub with secrets
