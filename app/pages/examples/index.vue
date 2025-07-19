@@ -1,5 +1,7 @@
 <script setup lang="ts">
+import { DialogCreate } from '#components'
 import { appTitle } from '#shared/constants'
+import { z } from 'zod'
 
 useMeta({ title: `${appTitle} | Examples` })
 
@@ -7,9 +9,21 @@ definePageMeta({
   layout: 'examples',
 })
 
-const logger = useLogger()
+const $q = useQuasar()
+// const logger = useLogger()
 
 const records = ref([])
+
+function onCreate() {
+  $q.dialog({
+    component: DialogCreate,
+    componentProps: {
+      label: 'Example',
+      recordSchema: z.any(),
+      formComponents: [],
+    },
+  })
+}
 </script>
 
 <template>
@@ -22,7 +36,7 @@ const records = ref([])
       :messages="['Click below to create an Example.']"
       palette-color="positive"
       button-label="Create Example"
-      @on-empty-action="() => logger.debug('clicked')"
+      @on-empty-action="() => onCreate()"
     />
 
     <!-- <DashboardActivityItem

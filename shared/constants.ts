@@ -19,6 +19,7 @@ import {
   symRoundedPerson,
   symRoundedPublish,
   symRoundedRefresh,
+  symRoundedSave,
   symRoundedSearch,
   symRoundedSettings,
   symRoundedSmartToy,
@@ -90,6 +91,7 @@ export const notificationsIcon = symRoundedNotifications
 export const settingsIcon = symRoundedSettings
 
 // Actions
+export const saveIcon = symRoundedSave
 export const createIcon = symRoundedAddCircle
 export const closeIcon = symRoundedClose
 export const goToTopIcon = symRoundedStat2

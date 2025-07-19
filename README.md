@@ -5,7 +5,12 @@ foundation for new apps.
 
 ## TODO
 
-- Generate types for Supabase tables (GitHub Action?)
+- Build the create/edit/delete Example forms
+  - Add form components
+- Instructions overlay for the Examples route
+- Reactive your Supabase project
+  - Setup GitHub with secrets
+  - Test Supabase GitHub actions
 - Develop notifications/reminders solution
 - Test SQL for solution in Supabase
 

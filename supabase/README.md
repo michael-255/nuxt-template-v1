@@ -15,5 +15,5 @@ npx supabase functions new {file_name}
 Generate types for a project.
 
 ```sh
-npx supabase gen types typescript --project-id "$PROJECT_REF" --schema public > database.types.ts
+npx supabase gen types typescript --project-id "$SUPABASE_PROJECT_ID " --schema public > shared/types/supabase.ts
 ```

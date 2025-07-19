@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { DialogBaseItem } from '#components'
+import { DialogInspectItem } from '#components'
 import { computed } from 'vue'
 
 const props = defineProps<{
@@ -14,7 +14,7 @@ const value = computed(() => {
 </script>
 
 <template>
-  <DialogBaseItem :label="label">
+  <DialogInspectItem :label="label">
     {{ value }}
-  </DialogBaseItem>
+  </DialogInspectItem>
 </template>

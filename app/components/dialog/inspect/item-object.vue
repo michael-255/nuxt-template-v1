@@ -13,13 +13,13 @@ const value = computed(() => {
 </script>
 
 <template>
-  <DialogBaseItem :label="label">
-    <ul v-if="value && value?.length > 0" class="q-pl-sm q-my-none">
-      <li v-for="x in value" :key="x" class="q-ml-sm">
-        {{ x }}
-      </li>
-    </ul>
+  <DialogInspectItem :label="label">
+    <div v-if="value && Object.keys(value).length > 0">
+      <div v-for="(v, k) in value" :key="k">
+        <span class="text-amber">{{ k }}:</span> {{ v }}
+      </div>
+    </div>
 
     <div v-else class="text-italic text-secondary">-empty-</div>
-  </DialogBaseItem>
+  </DialogInspectItem>
 </template>

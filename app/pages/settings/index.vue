@@ -342,14 +342,14 @@ function onTestLogs() {
     <QItem>
       <QItemSection top>
         <QItemLabel>Email</QItemLabel>
-        <QItemLabel caption> {{ user?.email || 'No User' }} </QItemLabel>
+        <QItemLabel caption> {{ user?.email || '-' }} </QItemLabel>
       </QItemSection>
     </QItem>
 
     <QItem>
       <QItemSection top>
         <QItemLabel>Id</QItemLabel>
-        <QItemLabel caption> {{ user?.id || 'No User' }} </QItemLabel>
+        <QItemLabel caption> {{ user?.id || '-' }} </QItemLabel>
       </QItemSection>
     </QItem>
 
@@ -375,7 +375,7 @@ function onTestLogs() {
     <QItem tag="label" :disable="$q.loading.isActive">
       <QItemSection top>
         <QItemLabel>Console Logs</QItemLabel>
-        <QItemLabel caption> Show all console logs in the browser console. </QItemLabel>
+        <QItemLabel caption> Show text logs in the browser console. </QItemLabel>
       </QItemSection>
 
       <QItemSection side>
@@ -396,9 +396,7 @@ function onTestLogs() {
     <QItem tag="label" :disable="$q.loading.isActive">
       <QItemSection top>
         <QItemLabel>Info Popups</QItemLabel>
-        <QItemLabel caption>
-          Show popup messages when certain actions have been completed.
-        </QItemLabel>
+        <QItemLabel caption> Show informational popup messages for user actions. </QItemLabel>
       </QItemSection>
 
       <QItemSection side>

@@ -30,8 +30,8 @@ const { dialogRef, onDialogHide, onDialogCancel } = useDialogPluginComponent()
           <div class="page-width-limit">
             <QList padding>
               <div v-if="record">
-                <DialogBaseItemText label="Id" field="id" :record />
-                <DialogBaseItemText label="Value" field="value" :record />
+                <DialogInspectItemText label="Id" field="id" :record />
+                <DialogInspectItemText label="Value" field="value" :record />
               </div>
             </QList>
             <div class="q-mt-xl" />
