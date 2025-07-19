@@ -30,7 +30,26 @@ onUnmounted(() => {
 })
 
 function onReset() {
-  localRecordStore.resetRecord()
+  $q.dialog({
+    component: DialogConfirm,
+    componentProps: {
+      title: `Reset ${props.label}`,
+      message: `Are you sure you want to reset this ${props.label} to the initial values?`,
+      color: 'warning',
+      icon: refreshIcon,
+      requiresUnlock: false,
+    },
+  }).onOk(async () => {
+    try {
+      $q.loading.show()
+      localRecordStore.resetRecord()
+      logger.info(`Reset ${props.label}`)
+    } catch (error) {
+      logger.error(`Error reseting ${props.label}`, error as Error)
+    } finally {
+      $q.loading.hide()
+    }
+  })
 }
 
 async function onSubmit() {

@@ -18,7 +18,11 @@ function onCreate() {
     component: DialogCreate,
     componentProps: {
       label: 'Example',
-      initialRecord: {},
+      initialRecord: {
+        id: 'test-123',
+        created_at: new Date().toISOString(),
+        message: 'This is a test example record.',
+      },
       onSubmitHandler: () => console.log('Create onSubmitHandler called'),
       formComponents: [
         { component: DialogFormItemCreatedDate },
