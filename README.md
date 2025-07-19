@@ -7,6 +7,7 @@ foundation for new apps.
 
 - Build the create/edit/delete Example forms
   - Add form components
+  - Convert `CreateDate` to use the ISO format to pair with SQL better
 - Instructions overlay for the Examples route
 - Reactive your Supabase project
   - Setup GitHub with secrets

@@ -23,7 +23,7 @@ export const useLocalRecordStore = defineStore('local-record', {
     },
 
     resetRecordToInitial() {
-      this.record = extend(true, {}, this.record, this.initialRecord)
+      this.record = extend(true, {}, this.initialRecord)
     },
   },
 

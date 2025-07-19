@@ -1,12 +1,15 @@
 import {
   symRoundedAddCircle,
   symRoundedBugReport,
+  symRoundedCalendarToday,
+  symRoundedCancel,
   symRoundedClose,
   symRoundedDatabase,
   symRoundedDelete,
   symRoundedDeleteForever,
   symRoundedDownload,
   symRoundedError,
+  symRoundedEventAvailable,
   symRoundedExitToApp,
   symRoundedFeatureSearch,
   symRoundedGridView,
@@ -20,6 +23,7 @@ import {
   symRoundedPublish,
   symRoundedRefresh,
   symRoundedSave,
+  symRoundedSchedule,
   symRoundedSearch,
   symRoundedSettings,
   symRoundedSmartToy,
@@ -94,6 +98,7 @@ export const settingsIcon = symRoundedSettings
 export const saveIcon = symRoundedSave
 export const createIcon = symRoundedAddCircle
 export const closeIcon = symRoundedClose
+export const cancelIcon = symRoundedCancel
 export const goToTopIcon = symRoundedStat2
 export const lockIcon = symRoundedLock
 export const unlockIcon = symRoundedLockOpenRight
@@ -113,3 +118,6 @@ export const storageIcon = symRoundedStorage
 export const columnsIcon = symRoundedViewWeek
 export const inspectIcon = symRoundedManageSearch
 export const databaseIcon = symRoundedDatabase
+export const calendarIcon = symRoundedCalendarToday
+export const calendarCheckIcon = symRoundedEventAvailable
+export const scheduleTimeIcon = symRoundedSchedule

@@ -27,7 +27,7 @@ onUnmounted(() => {
   localRecordStore.$reset()
 })
 
-const onReset = () => {
+function onReset() {
   localRecordStore.resetRecordToInitial()
 }
 

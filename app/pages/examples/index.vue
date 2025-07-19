@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { DialogCreate } from '#components'
+import { DialogCreate, DialogFormItemCreatedDate, DialogFormItemMessage } from '#components'
 import { appTitle } from '#shared/constants'
 import { z } from 'zod'
 
@@ -20,7 +20,10 @@ function onCreate() {
     componentProps: {
       label: 'Example',
       recordSchema: z.any(),
-      formComponents: [],
+      formComponents: [
+        { component: DialogFormItemCreatedDate },
+        { component: DialogFormItemMessage },
+      ],
     },
   })
 }
