@@ -4,13 +4,11 @@ import { closeIcon, createIcon, refreshIcon, saveIcon } from '#shared/constants'
 import useLogger from '@/composables/useLogger'
 import { extend, useDialogPluginComponent, useQuasar } from 'quasar'
 import { computed, onUnmounted, ref } from 'vue'
-import type { z, ZodObject, ZodRawShape } from 'zod'
 import { useLocalRecordStore } from '~/stores/local-record'
 
 const props = defineProps<{
   label: string
   initialRecord: Record<string, any>
-  recordSchema: ZodObject<ZodRawShape>
   onSubmitHandler: (record: Record<string, any>) => Promise<void>
   formComponents: Array<{ component: string; props: Record<string, any> }>
 }>()
@@ -48,9 +46,7 @@ async function onSubmit() {
   }).onOk(async () => {
     try {
       $q.loading.show()
-      const recordDeepCopy = extend(true, {}, localRecordStore.record) as z.infer<
-        typeof props.recordSchema
-      >
+      const recordDeepCopy = extend(true, {}, localRecordStore.record) as Record<string, any>
       await props.onSubmitHandler(recordDeepCopy)
       logger.info(`${props.label} created`, recordDeepCopy)
     } catch (error) {

@@ -5,10 +5,9 @@ foundation for new apps.
 
 ## TODO
 
-- Build `Edit Example` dialog form
-  - Add form components
-  - Add validation
 - Build fake database calls in `data-layer` that log for now
+  - What should the queries look like?
+  - What should the mutations look like?
 - Instructions overlay for the Examples route
 - Reactive your Supabase project
   - Setup GitHub with secrets

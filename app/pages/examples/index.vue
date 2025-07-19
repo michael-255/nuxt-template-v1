@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { DialogCreate, DialogFormItemCreatedDate, DialogFormItemMessage } from '#components'
 import { appTitle } from '#shared/constants'
-import { z } from 'zod'
 
 useMeta({ title: `${appTitle} | Examples` })
 
@@ -20,7 +19,6 @@ function onCreate() {
     componentProps: {
       label: 'Example',
       initialRecord: {},
-      recordSchema: z.any(),
       onSubmitHandler: () => console.log('Create onSubmitHandler called'),
       formComponents: [
         { component: DialogFormItemCreatedDate },
