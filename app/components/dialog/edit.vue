@@ -24,7 +24,7 @@ localRecordStore.setInitialRecords(props.record)
 
 const isFormValid = ref(true)
 const showResetBtn = computed(() => {
-  return JSON.stringify(localRecordStore.record) !== JSON.stringify(localRecordStore.record)
+  return JSON.stringify(localRecordStore.initialRecord) !== JSON.stringify(localRecordStore.record)
 })
 
 onUnmounted(() => {

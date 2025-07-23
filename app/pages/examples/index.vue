@@ -1,5 +1,10 @@
 <script setup lang="ts">
-import { DialogCreate, DialogFormItemCreatedDate, DialogFormItemMessage } from '#components'
+import {
+  DialogCreate,
+  DialogFormItemCreatedDate,
+  DialogFormItemMessage,
+  DialogFormItemReminders,
+} from '#components'
 import { appTitle } from '#shared/constants'
 import { fakeOperation } from '~/utils/data-layer'
 
@@ -44,6 +49,7 @@ function onCreate() {
       subComponents: [
         { component: DialogFormItemCreatedDate },
         { component: DialogFormItemMessage },
+        { component: DialogFormItemReminders },
       ],
     },
   })

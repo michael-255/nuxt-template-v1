@@ -4,8 +4,10 @@ import {
   DialogEdit,
   DialogFormItemCreatedDate,
   DialogFormItemMessage,
+  DialogFormItemReminders,
   DialogInspect,
   DialogInspectItemDate,
+  DialogInspectItemList,
   DialogInspectItemText,
 } from '#components'
 import { deleteIcon, editIcon, inspectIcon, verticalDotMenuIcon } from '#shared/constants'
@@ -37,6 +39,10 @@ function onInspect() {
           component: DialogInspectItemText,
           props: { label: 'Message', field: 'message', record: props.record },
         },
+        {
+          component: DialogInspectItemList,
+          props: { label: 'Reminders', field: 'reminders', record: props.record },
+        },
       ],
     },
   })
@@ -52,6 +58,7 @@ function onEdit() {
       subComponents: [
         { component: DialogFormItemCreatedDate },
         { component: DialogFormItemMessage },
+        { component: DialogFormItemReminders },
       ],
     },
   })

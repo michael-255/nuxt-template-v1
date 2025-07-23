@@ -6,13 +6,10 @@ import {
   pickerDateFormat,
   scheduleTimeIcon,
 } from '#shared/constants'
-import { date, useQuasar } from 'quasar'
+import { date } from 'quasar'
 import { computed, ref, watch } from 'vue'
 
-const $q = useQuasar()
 const localRecordStore = useLocalRecordStore()
-
-const isDisabled = computed(() => $q.loading.isActive)
 
 function isoToLocalString(iso: string) {
   if (!iso) return ''
@@ -59,26 +56,19 @@ watch(dateTimePicker, () => {
     <QItemLabel v-else class="text-h6">No Date</QItemLabel>
 
     <QItemLabel class="q-gutter-xs">
-      <QBtn :disable="isDisabled" :icon="calendarIcon" size="sm" label="Date" color="primary">
+      <QBtn :icon="calendarIcon" size="sm" label="Date" color="primary">
         <QPopupProxy>
           <QDate v-model="dateTimePicker" :mask="pickerDateFormat" today-btn no-unset />
         </QPopupProxy>
       </QBtn>
 
-      <QBtn :disable="isDisabled" :icon="scheduleTimeIcon" size="sm" label="Time" color="primary">
+      <QBtn :icon="scheduleTimeIcon" size="sm" label="Time" color="primary">
         <QPopupProxy>
           <QTime v-model="dateTimePicker" :mask="pickerDateFormat" />
         </QPopupProxy>
       </QBtn>
 
-      <QBtn
-        :disable="isDisabled"
-        :icon="calendarCheckIcon"
-        size="sm"
-        label="Now"
-        color="positive"
-        @click="onNow"
-      />
+      <QBtn :icon="calendarCheckIcon" size="sm" label="Now" color="positive" @click="onNow" />
     </QItemLabel>
   </DialogFormItem>
 </template>

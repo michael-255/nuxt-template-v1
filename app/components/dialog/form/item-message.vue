@@ -1,13 +1,8 @@
 <script setup lang="ts">
 import { cancelIcon } from '#shared/constants'
 import { limitRuleLookup } from '#shared/utils/utils'
-import { useQuasar } from 'quasar'
-import { computed } from 'vue'
 
-const $q = useQuasar()
 const localRecordStore = useLocalRecordStore()
-
-const isDisabled = computed(() => $q.loading.isActive)
 </script>
 
 <template>
@@ -22,7 +17,6 @@ const isDisabled = computed(() => $q.loading.isActive)
             `Messages cannot exceed ${limitRuleLookup.maxTextArea} characters`,
         ]"
         :maxlength="limitRuleLookup.maxTextArea"
-        :disable="isDisabled"
         type="textarea"
         lazy-rules
         autogrow

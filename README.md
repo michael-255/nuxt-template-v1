@@ -6,7 +6,6 @@ foundation for new apps.
 ## TODO
 
 - **Examples Dashboard**
-  - Form element with checkboxes for example reminders
   - Refactor utils to work with ISO dates
 
 - **Supabase**
