@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { DialogInspectSetting } from '#components'
+import { DialogInspect, DialogInspectItemText } from '#components'
 import { appTitle, closeIcon } from '#shared/constants'
 import type { SettingType } from '#shared/types/types'
 import { recordsCount, tableColumn, visibleColumnsFromTableColumns } from '#shared/utils/utils'
@@ -37,9 +37,16 @@ const subscription = localDatabase.liveSettings().subscribe({
  * Opens the Inspect Setting dialog using the data from the clicked row.
  */
 function onInspectSetting(record: Record<string, any>) {
-  return $q.dialog({
-    component: DialogInspectSetting,
-    componentProps: { record },
+  $q.dialog({
+    component: DialogInspect,
+    componentProps: {
+      label: 'Setting',
+      record,
+      formComponents: [
+        { component: DialogInspectItemText, props: { label: 'Id', field: 'id', record } },
+        { component: DialogInspectItemText, props: { label: 'Value', field: 'value', record } },
+      ],
+    },
   })
 }
 

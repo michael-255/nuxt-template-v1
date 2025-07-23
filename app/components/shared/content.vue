@@ -1,5 +1,12 @@
 <script setup lang="ts">
-import { DialogEdit, DialogFormItemCreatedDate, DialogFormItemMessage } from '#components'
+import {
+  DialogEdit,
+  DialogFormItemCreatedDate,
+  DialogFormItemMessage,
+  DialogInspect,
+  DialogInspectItemDate,
+  DialogInspectItemText,
+} from '#components'
 import { deleteIcon, editIcon, inspectIcon, verticalDotMenuIcon } from '#shared/constants'
 import { useQuasar } from 'quasar'
 
@@ -10,7 +17,27 @@ const props = defineProps<{
 const $q = useQuasar()
 
 function onInspect() {
-  console.log('Inspect record:', props.record)
+  $q.dialog({
+    component: DialogInspect,
+    componentProps: {
+      label: 'Example',
+      record: props.record,
+      formComponents: [
+        {
+          component: DialogInspectItemText,
+          props: { label: 'Id', field: 'id', record: props.record },
+        },
+        {
+          component: DialogInspectItemDate,
+          props: { label: 'Created Date', field: 'created_at', record: props.record },
+        },
+        {
+          component: DialogInspectItemText,
+          props: { label: 'Message', field: 'message', record: props.record },
+        },
+      ],
+    },
+  })
 }
 
 function onEdit() {
@@ -18,7 +45,7 @@ function onEdit() {
     component: DialogEdit,
     componentProps: {
       label: 'Example',
-      initialRecord: props.record,
+      record: props.record,
       onSubmitHandler: fakeOperation,
       formComponents: [
         { component: DialogFormItemCreatedDate },

@@ -36,7 +36,7 @@ function onCreate() {
     component: DialogCreate,
     componentProps: {
       label: 'Example',
-      initialRecord: {},
+      record: {},
       onSubmitHandler: fakeOperation,
       formComponents: [
         { component: DialogFormItemCreatedDate },

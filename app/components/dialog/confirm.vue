@@ -53,7 +53,7 @@ const toggle = ref(false)
           :disable="!toggle"
           flat
           label="Confirm"
-          :color="toggle ? props.color : 'grey'"
+          :color="toggle ? color : 'grey'"
           @click="onDialogOK"
         />
         <QBtn v-else flat label="Confirm" :color="color" @click="onDialogOK" />

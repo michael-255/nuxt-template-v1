@@ -8,7 +8,7 @@ import { useLocalRecordStore } from '~/stores/local-record'
 
 const props = defineProps<{
   label: string
-  initialRecord: Record<string, any>
+  record: Record<string, any>
   onSubmitHandler: (record: Record<string, any>) => Promise<void>
   formComponents: Array<{ component: string; props: Record<string, any> }>
 }>()
@@ -20,11 +20,11 @@ const $q = useQuasar()
 const logger = useLogger()
 const localRecordStore = useLocalRecordStore()
 
-localRecordStore.setInitialRecords(props.initialRecord)
+localRecordStore.setInitialRecords(props.record)
 
 const isFormValid = ref(true)
 const showResetBtn = computed(() => {
-  return JSON.stringify(localRecordStore.initialRecord) !== JSON.stringify(localRecordStore.record)
+  return JSON.stringify(localRecordStore.record) !== JSON.stringify(localRecordStore.record)
 })
 
 onUnmounted(() => {
@@ -108,7 +108,7 @@ async function onSubmit() {
               <QList padding>
                 <component
                   :is="formComponent.component"
-                  v-for="(formComponent, index) in props.formComponents"
+                  v-for="(formComponent, index) in formComponents"
                   :key="index"
                   v-bind="formComponent.props"
                 />
@@ -118,7 +118,7 @@ async function onSubmit() {
                     <QItemLabel>
                       <div class="row justify-center">
                         <QBtn
-                          :label="`Update ${props.label}`"
+                          :label="`Update ${label}`"
                           :icon="saveIcon"
                           :disable="!isFormValid"
                           color="positive"

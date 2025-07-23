@@ -1,5 +1,10 @@
 <script setup lang="ts">
-import { DialogInspectLog } from '#components'
+import {
+  DialogInspect,
+  DialogInspectItemDate,
+  DialogInspectItemObject,
+  DialogInspectItemText,
+} from '#components'
 import { useRouting } from '#imports'
 import { appTitle, closeIcon, columnsIcon, searchIcon } from '#shared/constants'
 import {
@@ -52,9 +57,28 @@ const subscription = localDatabase.liveLogs().subscribe({
  * Opens the Inspect Log dialog using the data from the clicked row.
  */
 function onInspectLog(record: Record<string, any>) {
-  return $q.dialog({
-    component: DialogInspectLog,
-    componentProps: { record },
+  $q.dialog({
+    component: DialogInspect,
+    componentProps: {
+      label: 'Log',
+      record,
+      formComponents: [
+        { component: DialogInspectItemText, props: { label: 'Id', field: 'id', record } },
+        {
+          component: DialogInspectItemDate,
+          props: { label: 'Created Date', field: 'created_at', record },
+        },
+        {
+          component: DialogInspectItemText,
+          props: { label: 'Log Level', field: 'log_level', record },
+        },
+        { component: DialogInspectItemText, props: { label: 'Label', field: 'label', record } },
+        {
+          component: DialogInspectItemObject,
+          props: { label: 'Details', field: 'details', record },
+        },
+      ],
+    },
   })
 }
 

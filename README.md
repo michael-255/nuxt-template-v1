@@ -7,7 +7,6 @@ foundation for new apps.
 
 - **Examples Dashboard**
   - Form element with checkboxes for example reminders
-  - Generic Inspect dialog
   - Refactor utils to work with ISO dates
 
 - **Supabase**
