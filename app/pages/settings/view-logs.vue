@@ -62,7 +62,7 @@ function onInspectLog(record: Record<string, any>) {
     componentProps: {
       label: 'Log',
       record,
-      formComponents: [
+      subComponents: [
         { component: DialogInspectItemText, props: { label: 'Id', field: 'id', record } },
         {
           component: DialogInspectItemDate,

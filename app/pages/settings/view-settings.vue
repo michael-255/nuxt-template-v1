@@ -42,7 +42,7 @@ function onInspectSetting(record: Record<string, any>) {
     componentProps: {
       label: 'Setting',
       record,
-      formComponents: [
+      subComponents: [
         { component: DialogInspectItemText, props: { label: 'Id', field: 'id', record } },
         { component: DialogInspectItemText, props: { label: 'Value', field: 'value', record } },
       ],

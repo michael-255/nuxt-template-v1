@@ -22,7 +22,7 @@ function onInspect() {
     componentProps: {
       label: 'Example',
       record: props.record,
-      formComponents: [
+      subComponents: [
         {
           component: DialogInspectItemText,
           props: { label: 'Id', field: 'id', record: props.record },
@@ -47,7 +47,7 @@ function onEdit() {
       label: 'Example',
       record: props.record,
       onSubmitHandler: fakeOperation,
-      formComponents: [
+      subComponents: [
         { component: DialogFormItemCreatedDate },
         { component: DialogFormItemMessage },
       ],

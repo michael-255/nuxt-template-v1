@@ -38,7 +38,7 @@ function onCreate() {
       label: 'Example',
       record: {},
       onSubmitHandler: fakeOperation,
-      formComponents: [
+      subComponents: [
         { component: DialogFormItemCreatedDate },
         { component: DialogFormItemMessage },
       ],

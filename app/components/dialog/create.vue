@@ -10,7 +10,7 @@ const props = defineProps<{
   label: string
   record: Record<string, any>
   onSubmitHandler: (record: Record<string, any>) => Promise<void>
-  formComponents: Array<{ component: string; props: Record<string, any> }>
+  subComponents: Array<{ component: string; props: Record<string, any> }>
 }>()
 
 defineEmits([...useDialogPluginComponent.emits])
@@ -107,10 +107,10 @@ async function onSubmit() {
             >
               <QList padding>
                 <component
-                  :is="formComponent.component"
-                  v-for="(formComponent, index) in formComponents"
+                  :is="subComponent.component"
+                  v-for="(subComponent, index) in subComponents"
                   :key="index"
-                  v-bind="formComponent.props"
+                  v-bind="subComponent.props"
                 />
 
                 <QItem>
