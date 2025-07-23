@@ -18,16 +18,19 @@ const records = ref([
     id: 'example-1',
     created_at: new Date().toISOString(),
     message: 'This is an example record.',
+    reminders: ['None'],
   },
   {
     id: 'example-2',
     created_at: new Date('2025-05-15').toISOString(),
     message: 'This is another example record.',
+    reminders: ['Weekly'],
   },
   {
     id: 'example-3',
     created_at: new Date('2025-01-31').toISOString(),
     message: 'This is yet another example record.',
+    reminders: ['Monthly', 'Yearly'],
   },
 ])
 

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import {
+  DialogConfirm,
   DialogEdit,
   DialogFormItemCreatedDate,
   DialogFormItemMessage,
@@ -15,6 +16,7 @@ const props = defineProps<{
 }>()
 
 const $q = useQuasar()
+const logger = useLogger()
 
 function onInspect() {
   $q.dialog({
@@ -56,7 +58,25 @@ function onEdit() {
 }
 
 function onDelete() {
-  console.log('Delete record:', props.record)
+  $q.dialog({
+    component: DialogConfirm,
+    componentProps: {
+      title: 'Delete Example',
+      message: `Are you sure you want to delete this Example?`,
+      color: 'negative',
+      icon: deleteIcon,
+      requiresUnlock: true,
+    },
+  }).onOk(async () => {
+    try {
+      $q.loading.show()
+      logger.info(`Example deleted`)
+    } catch (error) {
+      logger.error(`Error deleting Example`, error as Error)
+    } finally {
+      $q.loading.hide()
+    }
+  })
 }
 </script>
 
