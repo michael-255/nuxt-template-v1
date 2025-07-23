@@ -5,11 +5,19 @@ foundation for new apps.
 
 ## TODO
 
-- Reactive your Supabase project
-  - Setup GitHub with secrets
-  - Test Supabase GitHub actions
-- Develop notifications/reminders solution
-- Test SQL for solution in Supabase
+- **Examples Dashboard**
+  - Form element with checkboxes for example reminders
+  - Generic Inspect dialog
+  - Refactor utils to work with ISO dates
+
+- **Supabase**
+  - Reactivate Supabase test project
+    - Setup GitHub with secrets
+      - SUPABASE_PROJECT_ID
+      - SUPABASE_ACCESS_TOKEN
+      - SUPABASE_DB_PASSWORD
+    - Test Supabase GitHub actions
+    - Test SQL for solutions
 
 ## Project Goals
 

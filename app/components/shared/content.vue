@@ -1,0 +1,109 @@
+<script setup lang="ts">
+import { DialogEdit, DialogFormItemCreatedDate, DialogFormItemMessage } from '#components'
+import { deleteIcon, editIcon, inspectIcon, verticalDotMenuIcon } from '#shared/constants'
+import { useQuasar } from 'quasar'
+
+const props = defineProps<{
+  record: Record<string, any>
+}>()
+
+const $q = useQuasar()
+
+function onInspect() {
+  console.log('Inspect record:', props.record)
+}
+
+function onEdit() {
+  $q.dialog({
+    component: DialogEdit,
+    componentProps: {
+      label: 'Example',
+      initialRecord: props.record,
+      onSubmitHandler: fakeOperation,
+      formComponents: [
+        { component: DialogFormItemCreatedDate },
+        { component: DialogFormItemMessage },
+      ],
+    },
+  })
+}
+
+function onDelete() {
+  console.log('Delete record:', props.record)
+}
+</script>
+
+<template>
+  <QItem>
+    <QItemSection>
+      <QCard flat bordered>
+        <QItem class="q-mt-sm">
+          <QItemSection top>
+            <QItemLabel class="text-body1">{{ record.id }}</QItemLabel>
+
+            <QItemLabel caption>
+              <div class="text-grey-5 row">
+                <span class="q-mt-xs">
+                  {{ record.created_at }}
+                </span>
+              </div>
+            </QItemLabel>
+          </QItemSection>
+
+          <QItemSection top side>
+            <div class="row btn-translation">
+              <QBtn :disable="$q.loading.isActive" :icon="verticalDotMenuIcon" flat dense round>
+                <QMenu
+                  auto-close
+                  anchor="top right"
+                  transition-show="flip-right"
+                  transition-hide="flip-left"
+                >
+                  <QList>
+                    <QItem clickable @click="onInspect">
+                      <QItemSection avatar>
+                        <QIcon color="primary" :name="inspectIcon" />
+                      </QItemSection>
+
+                      <QItemSection>Inspect</QItemSection>
+                    </QItem>
+
+                    <QItem clickable @click="onEdit">
+                      <QItemSection avatar>
+                        <QIcon color="amber" :name="editIcon" />
+                      </QItemSection>
+
+                      <QItemSection>Edit</QItemSection>
+                    </QItem>
+
+                    <QItem clickable @click="onDelete">
+                      <QItemSection avatar>
+                        <QIcon color="negative" :name="deleteIcon" />
+                      </QItemSection>
+
+                      <QItemSection>Delete</QItemSection>
+                    </QItem>
+                  </QList>
+                </QMenu>
+              </QBtn>
+            </div>
+          </QItemSection>
+        </QItem>
+
+        <QItem>
+          <QItemSection>
+            <QItemLabel>
+              {{ record.message }}
+            </QItemLabel>
+          </QItemSection>
+        </QItem>
+      </QCard>
+    </QItemSection>
+  </QItem>
+</template>
+
+<style scoped>
+.btn-translation {
+  transform: translateY(-10px) translateX(12px);
+}
+</style>

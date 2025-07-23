@@ -2,23 +2,12 @@
 -- Enums
 --
 
-CREATE TYPE reminder_type AS ENUM (
+CREATE TYPE public.reminder_type AS ENUM (
+  'None',
   'Daily',
   'Weekly',
   'Monthly',
   'Yearly',
-  'January',
-  'February',
-  'March',
-  'April',
-  'May',
-  'June',
-  'July',
-  'August',
-  'September',
-  'October',
-  'November',
-  'December'
 );
 
 COMMENT ON TYPE reminder_type IS 'Enumeration of reminder types for scheduling reminders.';
@@ -27,63 +16,87 @@ COMMENT ON TYPE reminder_type IS 'Enumeration of reminder types for scheduling r
 -- Tables
 --
 
-CREATE TABLE examples (
+CREATE TABLE public.examples (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   user_id UUID NOT NULL DEFAULT auth.uid() REFERENCES auth.users(id) ON DELETE CASCADE,
   created_at TIMESTAMPTZ NOT NULL DEFAULT (NOW() AT TIME ZONE 'utc')
   message TEXT,
 );
 
-COMMENT ON TABLE examples IS 'Table to store user examples with timestamps.';
-COMMENT ON COLUMN examples.id IS 'Unique identifier for each example.';
-COMMENT ON COLUMN examples.user_id IS 'ID of the user who created the example.';
-COMMENT ON COLUMN examples.created_at IS 'Timestamp when the example was created, in UTC.';
+COMMENT ON TABLE public.examples IS 'Table to store user examples with timestamps.';
+COMMENT ON COLUMN public.examples.id IS 'Unique identifier for each example.';
+COMMENT ON COLUMN public.examples.user_id IS 'ID of the user who created the example.';
+COMMENT ON COLUMN public.examples.created_at IS 'Timestamp when the example was created, in UTC.';
 
-CREATE TABLE example_reminders (
+CREATE TABLE public.example_reminders (
   user_id UUID NOT NULL DEFAULT auth.uid() REFERENCES auth.users(id) ON DELETE CASCADE,
   example_id UUID NOT NULL REFERENCES examples(id) ON DELETE CASCADE,
   reminder reminder_type NOT NULL,
   PRIMARY KEY (user_id, example_id, reminder)
 );
 
-COMMENT ON TABLE example_reminders IS 'Table to store reminders for user examples.';
-COMMENT ON COLUMN example_reminders.user_id IS 'ID of the user who created the reminder.';
-COMMENT ON COLUMN example_reminders.example_id IS 'ID of the example associated with the reminder.';
-COMMENT ON COLUMN example_reminders.reminder IS 'Type of reminder for the example.';
+COMMENT ON TABLE public.example_reminders IS 'Table to store reminders for user examples.';
+COMMENT ON COLUMN public.example_reminders.user_id IS 'ID of the user who created the reminder.';
+COMMENT ON COLUMN public.example_reminders.example_id IS 'ID of the example associated with the reminder.';
+COMMENT ON COLUMN public.example_reminders.reminder IS 'Type of reminder for the example.';
 
 --
 -- Policies
 --
 
 -- Examples
-ALTER TABLE examples ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.examples ENABLE ROW LEVEL SECURITY;
 
-CREATE POLICY "Select own examples" ON examples
-  FOR SELECT USING (auth.uid() = user_id);
+CREATE POLICY "Select own examples"
+  ON public.examples
+  FOR SELECT
+  TO authenticated
+  USING user_id = (select auth.uid());
 
-CREATE POLICY "Insert own examples" ON examples
-  FOR INSERT WITH CHECK (auth.uid() = user_id);
+CREATE POLICY "Insert own examples"
+  ON public.examples
+  FOR INSERT
+  TO authenticated
+  WITH CHECK user_id = (select auth.uid());
 
-CREATE POLICY "Update own examples" ON examples
-  FOR UPDATE USING (auth.uid() = user_id);
+CREATE POLICY "Update own examples"
+  ON public.examples
+  FOR UPDATE
+  TO authenticated
+  USING user_id = (select auth.uid());
 
-CREATE POLICY "Delete own examples" ON examples
-  FOR DELETE USING (auth.uid() = user_id);
+CREATE POLICY "Delete own examples"
+  ON public.examples
+  FOR DELETE
+  TO authenticated
+  USING user_id = (select auth.uid());
 
 -- Example Reminders
-ALTER TABLE example_reminders ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.example_reminders ENABLE ROW LEVEL SECURITY;
 
-CREATE POLICY "Select own example reminders" ON example_reminders
-  FOR SELECT USING (auth.uid() = user_id);
+CREATE POLICY "Select own example reminders"
+  ON public.example_reminders
+  FOR SELECT
+  TO authenticated
+  USING user_id = (select auth.uid());
 
-CREATE POLICY "Insert own example reminders" ON example_reminders
-  FOR INSERT WITH CHECK (auth.uid() = user_id);
+CREATE POLICY "Insert own example reminders"
+  ON public.example_reminders
+  FOR INSERT
+  TO authenticated
+  WITH CHECK user_id = (select auth.uid());
 
-CREATE POLICY "Update own example reminders" ON example_reminders
-  FOR UPDATE USING (auth.uid() = user_id);
+CREATE POLICY "Update own example reminders"
+  ON public.example_reminders
+  FOR UPDATE
+  TO authenticated
+  USING user_id = (select auth.uid());
 
-CREATE POLICY "Delete own example reminders" ON example_reminders
-  FOR DELETE USING (auth.uid() = user_id);
+CREATE POLICY "Delete own example reminders"
+  ON public.example_reminders
+  FOR DELETE
+  TO authenticated
+  USING user_id = (select auth.uid());
 
 -- TEST 1
 

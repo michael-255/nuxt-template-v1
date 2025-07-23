@@ -1,10 +1,5 @@
 <script setup lang="ts">
-import {
-  DialogCreate,
-  DialogEdit,
-  DialogFormItemCreatedDate,
-  DialogFormItemMessage,
-} from '#components'
+import { DialogCreate, DialogFormItemCreatedDate, DialogFormItemMessage } from '#components'
 import { appTitle } from '#shared/constants'
 import { fakeOperation } from '~/utils/data-layer'
 
@@ -17,37 +12,31 @@ definePageMeta({
 const $q = useQuasar()
 // const logger = useLogger()
 
-const records = ref([])
+const records = ref([
+  // Test records for demonstration purposes
+  {
+    id: 'example-1',
+    created_at: new Date().toISOString(),
+    message: 'This is an example record.',
+  },
+  {
+    id: 'example-2',
+    created_at: new Date('2025-05-15').toISOString(),
+    message: 'This is another example record.',
+  },
+  {
+    id: 'example-3',
+    created_at: new Date('2025-01-31').toISOString(),
+    message: 'This is yet another example record.',
+  },
+])
 
 function onCreate() {
   $q.dialog({
     component: DialogCreate,
     componentProps: {
       label: 'Example',
-      initialRecord: {
-        id: 'test-123',
-        created_at: new Date().toISOString(),
-        message: 'This is a test example record.',
-      },
-      onSubmitHandler: fakeOperation,
-      formComponents: [
-        { component: DialogFormItemCreatedDate },
-        { component: DialogFormItemMessage },
-      ],
-    },
-  })
-}
-
-function onEdit() {
-  $q.dialog({
-    component: DialogEdit,
-    componentProps: {
-      label: 'Example',
-      initialRecord: {
-        id: 'test-123',
-        created_at: new Date().toISOString(),
-        message: 'This is a test example record.',
-      },
+      initialRecord: {},
       onSubmitHandler: fakeOperation,
       formComponents: [
         { component: DialogFormItemCreatedDate },
@@ -71,21 +60,6 @@ function onEdit() {
       @on-empty-action="() => onCreate()"
     />
 
-    <SharedMessage
-      v-if="records && records.length == 0"
-      :title="`No Examples Found`"
-      :messages="['Click below to edit an Example.']"
-      palette-color="positive"
-      button-label="Edit Example"
-      @on-empty-action="() => onEdit()"
-    />
-
-    <!-- <DashboardActivityItem
-      v-for="record in liveRecords"
-      :key="record.id"
-      :record="record"
-      :service="ExerciseServInst"
-      :child-service="ExerciseResultServInst"
-    /> -->
+    <SharedContent v-for="record in records" :key="record.id" :record="record" />
   </QList>
 </template>

@@ -8,6 +8,7 @@ import {
   symRoundedDelete,
   symRoundedDeleteForever,
   symRoundedDownload,
+  symRoundedEdit,
   symRoundedError,
   symRoundedEventAvailable,
   symRoundedExitToApp,
@@ -18,6 +19,7 @@ import {
   symRoundedLockOpenRight,
   symRoundedLogout,
   symRoundedManageSearch,
+  symRoundedMoreVert,
   symRoundedNotifications,
   symRoundedPerson,
   symRoundedPublish,
@@ -97,6 +99,7 @@ export const settingsIcon = symRoundedSettings
 // Actions
 export const saveIcon = symRoundedSave
 export const createIcon = symRoundedAddCircle
+export const editIcon = symRoundedEdit
 export const closeIcon = symRoundedClose
 export const cancelIcon = symRoundedCancel
 export const goToTopIcon = symRoundedStat2
@@ -121,3 +124,4 @@ export const databaseIcon = symRoundedDatabase
 export const calendarIcon = symRoundedCalendarToday
 export const calendarCheckIcon = symRoundedEventAvailable
 export const scheduleTimeIcon = symRoundedSchedule
+export const verticalDotMenuIcon = symRoundedMoreVert
