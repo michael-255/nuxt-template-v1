@@ -20,10 +20,12 @@ const $q = useQuasar()
 const logger = useLogger()
 const localRecordStore = useLocalRecordStore()
 
-localRecordStore.setInitialRecord(props.initialRecord)
+localRecordStore.setInitialRecords(props.initialRecord)
 
 const isFormValid = ref(true)
-const isDisabled = computed(() => $q.loading.isActive || !isFormValid.value)
+const showResetBtn = computed(() => {
+  return JSON.stringify(localRecordStore.initialRecord) !== JSON.stringify(localRecordStore.record)
+})
 
 onUnmounted(() => {
   localRecordStore.$reset()
@@ -60,7 +62,7 @@ async function onSubmit() {
       message: `Are you sure you want to create this ${props.label}?`,
       color: 'positive',
       icon: saveIcon,
-      requiresUnlock: true,
+      requiresUnlock: false,
     },
   }).onOk(async () => {
     try {
@@ -89,7 +91,7 @@ async function onSubmit() {
     <QToolbar class="bg-primary text-white toolbar-height q-pr-xs">
       <QIcon :name="createIcon" size="sm" />
       <QToolbarTitle>Create {{ label }}</QToolbarTitle>
-      <QBtn flat round :icon="refreshIcon" @click="onReset" />
+      <QBtn v-show="showResetBtn" flat round color="yellow" :icon="refreshIcon" @click="onReset" />
       <QBtn flat round :icon="closeIcon" @click="onDialogCancel" />
     </QToolbar>
 
@@ -118,7 +120,7 @@ async function onSubmit() {
                         <QBtn
                           :label="`Create ${props.label}`"
                           :icon="saveIcon"
-                          :disable="isDisabled"
+                          :disable="!isFormValid"
                           color="positive"
                           type="submit"
                         />
@@ -146,10 +148,10 @@ async function onSubmit() {
 
 <style scoped>
 .toolbar-height {
-  max-height: 50px;
+  max-height: 3rem;
 }
 .responsive-container {
   width: 100%;
-  max-width: 800px;
+  max-width: 50rem;
 }
 </style>

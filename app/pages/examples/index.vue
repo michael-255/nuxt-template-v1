@@ -1,6 +1,12 @@
 <script setup lang="ts">
-import { DialogCreate, DialogFormItemCreatedDate, DialogFormItemMessage } from '#components'
+import {
+  DialogCreate,
+  DialogEdit,
+  DialogFormItemCreatedDate,
+  DialogFormItemMessage,
+} from '#components'
 import { appTitle } from '#shared/constants'
+import { fakeOperation } from '~/utils/data-layer'
 
 useMeta({ title: `${appTitle} | Examples` })
 
@@ -23,7 +29,26 @@ function onCreate() {
         created_at: new Date().toISOString(),
         message: 'This is a test example record.',
       },
-      onSubmitHandler: () => console.log('Create onSubmitHandler called'),
+      onSubmitHandler: fakeOperation,
+      formComponents: [
+        { component: DialogFormItemCreatedDate },
+        { component: DialogFormItemMessage },
+      ],
+    },
+  })
+}
+
+function onEdit() {
+  $q.dialog({
+    component: DialogEdit,
+    componentProps: {
+      label: 'Example',
+      initialRecord: {
+        id: 'test-123',
+        created_at: new Date().toISOString(),
+        message: 'This is a test example record.',
+      },
+      onSubmitHandler: fakeOperation,
       formComponents: [
         { component: DialogFormItemCreatedDate },
         { component: DialogFormItemMessage },
@@ -44,6 +69,15 @@ function onCreate() {
       palette-color="positive"
       button-label="Create Example"
       @on-empty-action="() => onCreate()"
+    />
+
+    <SharedMessage
+      v-if="records && records.length == 0"
+      :title="`No Examples Found`"
+      :messages="['Click below to edit an Example.']"
+      palette-color="positive"
+      button-label="Edit Example"
+      @on-empty-action="() => onEdit()"
     />
 
     <!-- <DashboardActivityItem

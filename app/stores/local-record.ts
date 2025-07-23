@@ -15,9 +15,9 @@ export const useLocalRecordStore = defineStore('local-record', {
 
   actions: {
     /**
-     * Set the initial record values prior to editing or creating a record.
+     * Set the initial record and record values prior to editing or creating a record.
      */
-    setInitialRecord(record: Record<string, any>) {
+    setInitialRecords(record: Record<string, any>) {
       this.initialRecord = extend(true, {}, record)
       this.record = extend(true, {}, record)
     },
