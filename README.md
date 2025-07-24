@@ -5,9 +5,6 @@ foundation for new apps.
 
 ## TODO
 
-- **Examples Dashboard**
-  - Refactor utils to work with ISO dates
-
 - **Supabase**
   - Reactivate Supabase test project
     - Setup GitHub with secrets

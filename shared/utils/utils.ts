@@ -156,7 +156,7 @@ export function visibleColumnsFromTableColumns(tableColumns: QTableColumn[]) {
  * @param labelPlural Plural label for the records
  * @returns `999 Settings found`
  */
-export function recordsCount(records: any[], labelSingular: string, labelPlural: string) {
+export function recordCount(records: any[], labelSingular: string, labelPlural: string) {
   const count = records?.length ?? 0
 
   if (count === 0) {
@@ -180,48 +180,51 @@ export function truncateText(text: string | null | undefined, maxLength: number,
 }
 
 /**
- * Compact readable date string from milliseconds or an empty string if your value is invalid.
- * @param milliseconds Number of milliseconds
+ * Compact readable date string from a UTC ISO date string, converted to local time, or an empty
+ * string if invalid.
+ * @param utcIsoDate UTC ISO date string
  * @returns `Sat, 2021 Jan 2nd, 12:00 PM`
  */
-export function compactDateFromMs(milliseconds: number | null | undefined) {
-  if (!milliseconds || typeof milliseconds !== 'number') {
+export function compactDate(utcIsoDate?: string) {
+  if (!utcIsoDate) {
     return ''
   }
-  return date.formatDate(milliseconds, 'ddd, YYYY MMM Do, h:mm A')
-}
 
-/**
- * Compact readable date string from an ISO date string or an `Invalid Date` string.
- * @param isoDate ISO date string
- * @returns `Sat, 2021 Jan 2nd, 12:00 PM`
- */
-export function compactDateFromISODate(isoDate?: string) {
-  if (!isoDate) {
-    return 'Invalid Date'
+  const dateObj = new Date(utcIsoDate)
+  if (isNaN(dateObj.getTime())) {
+    return ''
   }
-  return date.formatDate(new Date(isoDate), 'ddd, YYYY MMM Do, h:mm A')
+
+  // Convert to local time by using the Date object as-is
+  return date.formatDate(dateObj, 'ddd, YYYY MMM Do, h:mm A')
 }
 
 /**
- * Readable time duration string from milliseconds or an empty string if your value is below one
- * second or invalid.
- * @param milliseconds Number of milliseconds
+ * Readable time duration string from a UTC ISO date string (converted to local time) to now, or an
+ * empty string if invalid or less than one second.
+ * @param utcIsoDate UTC ISO date string
  * @returns `9d 9h 9m 9s`
  */
-export function timeFromMs(milliseconds: number | null | undefined): string | null | undefined {
-  if (
-    !milliseconds ||
-    typeof milliseconds !== 'number' ||
-    milliseconds < durationLookup['One Second']
-  ) {
+export function timeFromDate(utcIsoDate?: string): string {
+  if (!utcIsoDate) {
     return ''
   }
 
-  const seconds = Math.floor((milliseconds / durationLookup['One Second']) % 60)
-  const minutes = Math.floor((milliseconds / durationLookup['One Minute']) % 60)
-  const hours = Math.floor((milliseconds / durationLookup['One Hour']) % 24)
-  const days = Math.floor(milliseconds / durationLookup['One Day'])
+  const dateObj = new Date(utcIsoDate)
+  if (isNaN(dateObj.getTime())) {
+    return ''
+  }
+
+  const now = Date.now()
+  const diff = Math.abs(now - dateObj.getTime())
+  if (diff < durationLookup['One Second']) {
+    return ''
+  }
+
+  const seconds = Math.floor((diff / durationLookup['One Second']) % 60)
+  const minutes = Math.floor((diff / durationLookup['One Minute']) % 60)
+  const hours = Math.floor((diff / durationLookup['One Hour']) % 24)
+  const days = Math.floor(diff / durationLookup['One Day'])
 
   const daysStr = days > 0 ? `${days}d ` : ''
   const hoursStr = hours > 0 ? `${hours}h ` : ''
@@ -232,17 +235,23 @@ export function timeFromMs(milliseconds: number | null | undefined): string | nu
 }
 
 /**
- * Calculates relative time difference between the current time and a given time in milliseconds.
- * Then returns a formatted string with a color for the difference.
- * @param milliseconds Number of milliseconds
+ * Calculates relative time difference between the current time and a given UTC ISO date string
+ * (converted to local time). Returns a formatted string with a color for the difference.
+ * @param utcIsoDate UTC ISO date string
  * @returns `{ message: '1 months ago', color: 'amber' }`
  */
-export function timeAgo(milliseconds: number): {
-  message: string
-  color: string
-} {
+export function timeAgo(utcIsoDate?: string): { message: string; color: string } {
+  if (!utcIsoDate) {
+    return { message: 'Invalid date', color: 'negative' }
+  }
+
+  const dateObj = new Date(utcIsoDate)
+  if (isNaN(dateObj.getTime())) {
+    return { message: 'Invalid date', color: 'negative' }
+  }
+
   const now = Date.now()
-  const diff = milliseconds - now
+  const diff = dateObj.getTime() - now
   const absDiff = Math.abs(diff)
   const isPast = diff < 0
 
@@ -291,16 +300,12 @@ export function timeAgo(milliseconds: number): {
 
   for (const unit of units) {
     if (absDiff < unit.max) {
-      // Determine how many units are in the difference
       const count = Math.floor(absDiff / unit.value)
-      // Determine if unit name is singular or plural
       const unitName = count === 1 ? unit.name : `${unit.name}s`
-      // Return the formatted string
       const message = isPast ? `${count} ${unitName} ago` : `in ${count} ${unitName}`
       return { message, color: unit.color }
     }
   }
 
-  // This line should never be reached due to the defined units
   throw new Error('Unable to calculate time difference')
 }

@@ -5,7 +5,7 @@ import { appTitle, closeIcon, columnsIcon, searchIcon } from '#shared/constants'
 import {
   columnOptionsFromTableColumns,
   hiddenTableColumn,
-  recordsCount,
+  recordCount,
   tableColumn,
   visibleColumnsFromTableColumns,
 } from '#shared/utils/utils'
@@ -150,7 +150,7 @@ onUnmounted(() => {
     </template>
 
     <template #bottom>
-      {{ recordsCount(liveData, labelSingular, labelPlural) }}
+      {{ recordCount(liveData, labelSingular, labelPlural) }}
     </template>
   </QTable>
 </template>

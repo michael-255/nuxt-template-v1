@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { compactDateFromISODate } from '#shared/utils/utils'
+import { compactDate } from '#shared/utils/utils'
 import { computed } from 'vue'
 
 const props = defineProps<{
@@ -16,7 +16,7 @@ const value = computed(() => {
 <template>
   <DialogInspectItem :label="label">
     <div v-if="value">
-      {{ compactDateFromISODate(value) }}
+      {{ compactDate(value) }}
     </div>
 
     <div v-else class="text-italic text-secondary">-empty-</div>

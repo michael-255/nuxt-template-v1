@@ -21,7 +21,7 @@ const reminders = computed({
 <template>
   <DialogFormItem label="Reminders">
     <QItemLabel>
-      <div class="row q-col-gutter-md">
+      <div class="row">
         <div class="col column">
           <QCheckbox
             v-for="option in col1"
@@ -32,6 +32,7 @@ const reminders = computed({
             color="primary"
           />
         </div>
+
         <div class="col column">
           <QCheckbox
             v-for="option in col2"

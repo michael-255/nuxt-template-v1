@@ -2,7 +2,7 @@
 import { DialogInspect, DialogInspectItemText } from '#components'
 import { appTitle, closeIcon } from '#shared/constants'
 import type { SettingType } from '#shared/types/types'
-import { recordsCount, tableColumn, visibleColumnsFromTableColumns } from '#shared/utils/utils'
+import { recordCount, tableColumn, visibleColumnsFromTableColumns } from '#shared/utils/utils'
 import { useMeta, useQuasar } from 'quasar'
 import { onUnmounted, ref, type Ref } from 'vue'
 import { localDatabase } from '~/utils/local-database'
@@ -112,7 +112,7 @@ onUnmounted(() => {
     </template>
 
     <template #bottom>
-      {{ recordsCount(liveData, labelSingular, labelPlural) }}
+      {{ recordCount(liveData, labelSingular, labelPlural) }}
     </template>
   </QTable>
 </template>
