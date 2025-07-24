@@ -96,13 +96,11 @@ function onDelete() {
             <QItemLabel class="text-body1">{{ record.id }}</QItemLabel>
 
             <QItemLabel caption>
-              <div class="text-grey-5 row">
-                <QBadge outline :color="timeAgo(record.created_at).color" class="q-mr-xs">
-                  {{ timeAgo(record.created_at).message }}
-                </QBadge>
-                <span class="q-mt-xs">
-                  {{ compactDate(record.created_at) }}
-                </span>
+              <QBadge outline :color="timeAgo(record.created_at).color" class="q-mr-xs">
+                {{ timeAgo(record.created_at).message }}
+              </QBadge>
+              <div class="text-grey-5 q-mt-xs">
+                {{ compactDate(record.created_at) }}
               </div>
             </QItemLabel>
           </QItemSection>

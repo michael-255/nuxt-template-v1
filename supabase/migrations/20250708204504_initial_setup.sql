@@ -2,15 +2,36 @@
 -- Enums
 --
 
-CREATE TYPE public.reminder_type AS ENUM (
-  'None',
+CREATE TYPE public.recurrence_type AS ENUM (
+  -- Times
   'Daily',
   'Weekly',
   'Monthly',
   'Yearly',
+  -- Weekdays
+  'Sunday',
+  'Monday',
+  'Tuesday',
+  'Wednesday',
+  'Thursday',
+  'Friday',
+  'Saturday',
+  -- Months
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December'
 );
 
-COMMENT ON TYPE reminder_type IS 'Enumeration of reminder types for scheduling reminders.';
+COMMENT ON TYPE public.recurrence_type IS 'Enumeration of reminder types for scheduling reminders.';
 
 --
 -- Tables
@@ -31,14 +52,14 @@ COMMENT ON COLUMN public.examples.created_at IS 'Timestamp when the example was 
 CREATE TABLE public.example_reminders (
   user_id UUID NOT NULL DEFAULT auth.uid() REFERENCES auth.users(id) ON DELETE CASCADE,
   example_id UUID NOT NULL REFERENCES examples(id) ON DELETE CASCADE,
-  reminder reminder_type NOT NULL,
-  PRIMARY KEY (user_id, example_id, reminder)
+  recurrence recurrence_type NOT NULL,
+  PRIMARY KEY (user_id, example_id, recurrence)
 );
 
 COMMENT ON TABLE public.example_reminders IS 'Table to store reminders for user examples.';
 COMMENT ON COLUMN public.example_reminders.user_id IS 'ID of the user who created the reminder.';
 COMMENT ON COLUMN public.example_reminders.example_id IS 'ID of the example associated with the reminder.';
-COMMENT ON COLUMN public.example_reminders.reminder IS 'Type of reminder for the example.';
+COMMENT ON COLUMN public.example_reminders.recurrence IS 'Type of recurrence for the example.';
 
 --
 -- Policies
@@ -98,96 +119,83 @@ CREATE POLICY "Delete own example reminders"
   TO authenticated
   USING user_id = (select auth.uid());
 
--- TEST 1
+--
+-- Functions
+--
 
--- CREATE VIEW example_reminder_view AS
--- SELECT
---   er.user_id,
---   er.example_id,
---   e.created_at,
---   er.type,
---   CASE
---     WHEN er.type = 'Daily' THEN date_trunc('day', NOW())
---     WHEN er.type = 'Weekly' THEN date_trunc('week', NOW())
---     WHEN er.type = 'Monthly' THEN date_trunc('month', NOW())
---     WHEN er.type = 'Yearly' THEN date_trunc('year', NOW())
---     -- For months, you could use the current year and the month from the enum
---     WHEN er.type IN ('January','February','March','April','May','June','July','August','September','October','November','December')
---       THEN make_date(EXTRACT(YEAR FROM NOW())::int,
---         CASE er.type
---           WHEN 'January' THEN 1
---           WHEN 'February' THEN 2
---           WHEN 'March' THEN 3
---           WHEN 'April' THEN 4
---           WHEN 'May' THEN 5
---           WHEN 'June' THEN 6
---           WHEN 'July' THEN 7
---           WHEN 'August' THEN 8
---           WHEN 'September' THEN 9
---           WHEN 'October' THEN 10
---           WHEN 'November' THEN 11
---           WHEN 'December' THEN 12
---         END, 1)
---     ELSE NULL
---   END AS next_reminder
--- FROM example_reminders er
--- JOIN examples e ON er.example_id = e.id;
+CREATE FUNCTION public.is_reminder_satisfied(
+  recurrence public.recurrence_type,
+  latest_created_at TIMESTAMPTZ,
+  tz TEXT
+) RETURNS BOOLEAN AS $$
+DECLARE
+  local_date DATE := (latest_created_at AT TIME ZONE 'UTC' AT TIME ZONE tz)::date;
+  local_dow INT := EXTRACT(DOW FROM (latest_created_at AT TIME ZONE 'UTC' AT TIME ZONE tz));
+  local_month INT := EXTRACT(MONTH FROM (latest_created_at AT TIME ZONE 'UTC' AT TIME ZONE tz));
+  local_year INT := EXTRACT(YEAR FROM (latest_created_at AT TIME ZONE 'UTC' AT TIME ZONE tz));
+  today DATE := (CURRENT_DATE AT TIME ZONE tz);
+  this_week INT := EXTRACT(WEEK FROM (CURRENT_DATE AT TIME ZONE tz));
+  this_month INT := EXTRACT(MONTH FROM (CURRENT_DATE AT TIME ZONE tz));
+  this_year INT := EXTRACT(YEAR FROM (CURRENT_DATE AT TIME ZONE tz));
+  latest_week INT := EXTRACT(WEEK FROM local_date);
+BEGIN
+  CASE recurrence
+    -- Times
+    WHEN 'Daily' THEN RETURN local_date = today;
+    WHEN 'Weekly' THEN RETURN latest_week = this_week AND local_year = this_year;
+    WHEN 'Monthly' THEN RETURN local_month = this_month AND local_year = this_year;
+    WHEN 'Yearly' THEN RETURN local_year = this_year;
+    -- Weekdays
+    WHEN 'Sunday' THEN RETURN local_dow = 0 AND local_date = today;
+    WHEN 'Monday' THEN RETURN local_dow = 1 AND local_date = today;
+    WHEN 'Tuesday' THEN RETURN local_dow = 2 AND local_date = today;
+    WHEN 'Wednesday' THEN RETURN local_dow = 3 AND local_date = today;
+    WHEN 'Thursday' THEN RETURN local_dow = 4 AND local_date = today;
+    WHEN 'Friday' THEN RETURN local_dow = 5 AND local_date = today;
+    WHEN 'Saturday' THEN RETURN local_dow = 6 AND local_date = today;
+    -- Months
+    WHEN 'January' THEN RETURN local_month = 1 AND local_year = this_year;
+    WHEN 'February' THEN RETURN local_month = 2 AND local_year = this_year;
+    WHEN 'March' THEN RETURN local_month = 3 AND local_year = this_year;
+    WHEN 'April' THEN RETURN local_month = 4 AND local_year = this_year;
+    WHEN 'May' THEN RETURN local_month = 5 AND local_year = this_year;
+    WHEN 'June' THEN RETURN local_month = 6 AND local_year = this_year;
+    WHEN 'July' THEN RETURN local_month = 7 AND local_year = this_year;
+    WHEN 'August' THEN RETURN local_month = 8 AND local_year = this_year;
+    WHEN 'September' THEN RETURN local_month = 9 AND local_year = this_year;
+    WHEN 'October' THEN RETURN local_month = 10 AND local_year = this_year;
+    WHEN 'November' THEN RETURN local_month = 11 AND local_year = this_year;
+    WHEN 'December' THEN RETURN local_month = 12 AND local_year = this_year;
+    ELSE RETURN FALSE;
+  END CASE;
+END;
+$$ LANGUAGE plpgsql STABLE;
 
--- TEST 2
-
--- CREATE VIEW example_reminder_status AS
--- SELECT
---   er.user_id,
---   er.type,
---   -- Example created in current period?
---   CASE
---     WHEN er.type = 'Daily' THEN EXISTS (
---       SELECT 1 FROM examples e
---       WHERE e.user_id = er.user_id
---         AND e.created_at::date = CURRENT_DATE
---     )
---     WHEN er.type = 'Weekly' THEN EXISTS (
---       SELECT 1 FROM examples e
---       WHERE e.user_id = er.user_id
---         AND date_trunc('week', e.created_at) = date_trunc('week', NOW())
---     )
---     WHEN er.type = 'Monthly' THEN EXISTS (
---       SELECT 1 FROM examples e
---       WHERE e.user_id = er.user_id
---         AND date_trunc('month', e.created_at) = date_trunc('month', NOW())
---     )
---     WHEN er.type = 'Yearly' THEN EXISTS (
---       SELECT 1 FROM examples e
---       WHERE e.user_id = er.user_id
---         AND date_trunc('year', e.created_at) = date_trunc('year', NOW())
---     )
---     WHEN er.type IN ('January','February','March','April','May','June','July','August','September','October','November','December') THEN EXISTS (
---       SELECT 1 FROM examples e
---       WHERE e.user_id = er.user_id
---         AND EXTRACT(MONTH FROM e.created_at) =
---           CASE er.type
---             WHEN 'January' THEN 1
---             WHEN 'February' THEN 2
---             WHEN 'March' THEN 3
---             WHEN 'April' THEN 4
---             WHEN 'May' THEN 5
---             WHEN 'June' THEN 6
---             WHEN 'July' THEN 7
---             WHEN 'August' THEN 8
---             WHEN 'September' THEN 9
---             WHEN 'October' THEN 10
---             WHEN 'November' THEN 11
---             WHEN 'December' THEN 12
---           END
---         AND EXTRACT(YEAR FROM e.created_at) = EXTRACT(YEAR FROM NOW())
---     )
---     ELSE FALSE
---   END AS has_example_this_period,
---   -- Last example id for this user
---   (
---     SELECT e2.id FROM examples e2
---     WHERE e2.user_id = er.user_id
---     ORDER BY e2.created_at DESC
---     LIMIT 1
---   ) AS last_example_id
--- FROM example_reminders er;
+CREATE FUNCTION public.get_example_reminder_status(
+  p_user_id UUID,
+  p_timezone TEXT
+)
+RETURNS TABLE (
+  user_id UUID,
+  recurrence public.recurrence_type,
+  latest_created_at TIMESTAMPTZ,
+  is_satisfied BOOLEAN
+) AS $$
+BEGIN
+  RETURN QUERY
+  SELECT
+    er.user_id,
+    er.recurrence,
+    latest.created_at,
+    public.is_reminder_satisfied(er.recurrence, latest.created_at, p_timezone) AS is_satisfied
+  FROM example_reminders er
+  LEFT JOIN LATERAL (
+    SELECT e.created_at
+    FROM examples e
+    WHERE e.user_id = er.user_id
+    ORDER BY e.created_at DESC
+    LIMIT 1
+  ) latest ON TRUE
+  WHERE er.user_id = p_user_id;
+END;
+$$ LANGUAGE plpgsql STABLE;

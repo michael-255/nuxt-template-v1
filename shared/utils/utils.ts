@@ -102,7 +102,7 @@ export function tableColumn(
       return tableColumn
     case 'ISO-DATE':
       // Converts to a compact date string
-      tableColumn.format = (val: string) => compactDateFromISODate(val)
+      tableColumn.format = (val: string) => compactDate(val)
       return tableColumn
     case 'LIST-COUNT':
       // Converts list to a count of the number of items

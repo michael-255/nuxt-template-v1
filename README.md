@@ -5,6 +5,8 @@ foundation for new apps.
 
 ## TODO
 
+- Timezone: `Intl.DateTimeFormat().resolvedOptions().timeZone || 'America/New_York';`
+
 - **Supabase**
   - Reactivate Supabase test project
     - Setup GitHub with secrets
